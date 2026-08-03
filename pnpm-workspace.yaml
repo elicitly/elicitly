@@ -1,7 +1,12 @@
 packages:
   - packages/*
 
-# pnpm's supply-chain policy blocks install scripts by default; esbuild
-# (vitest's vite toolchain) compiles its native binary at install time.
+# Supply-chain policy, explicit so local and CI behave identically: only
+# install dependency versions at least 24h old (pnpm's cooling-off gate
+# against freshly compromised releases).
+minimumReleaseAge: 1440
+
+# pnpm blocks install scripts by default; esbuild (vitest's vite toolchain)
+# compiles its native binary at install time.
 onlyBuiltDependencies:
   - esbuild
