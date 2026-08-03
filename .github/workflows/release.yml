@@ -18,20 +18,34 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    # Secrets aren't readable in job-level `if`; env indirection is the
+    # documented pattern. Until NPM_TOKEN is configured, the job no-ops
+    # instead of failing every push with an unauthenticated publish.
+    env:
+      NPM_TOKEN_PRESENT: ${{ secrets.NPM_TOKEN != '' }}
     steps:
+      - name: No NPM_TOKEN configured — skipping release
+        if: env.NPM_TOKEN_PRESENT != 'true'
+        run: echo "Set the NPM_TOKEN repository secret to enable publishing."
+
       - uses: actions/checkout@v7
+        if: env.NPM_TOKEN_PRESENT == 'true'
 
       - uses: pnpm/action-setup@v6
+        if: env.NPM_TOKEN_PRESENT == 'true'
 
       - uses: actions/setup-node@v7
+        if: env.NPM_TOKEN_PRESENT == 'true'
         with:
           node-version: 22
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
       - run: pnpm install --frozen-lockfile
+        if: env.NPM_TOKEN_PRESENT == 'true'
 
       - name: Create release PR or publish
+        if: env.NPM_TOKEN_PRESENT == 'true'
         uses: changesets/action@v1
         with:
           publish: pnpm release
