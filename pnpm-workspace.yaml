@@ -1,0 +1,7 @@
+packages:
+  - packages/*
+
+# pnpm's supply-chain policy blocks install scripts by default; esbuild
+# (vitest's vite toolchain) compiles its native binary at install time.
+onlyBuiltDependencies:
+  - esbuild

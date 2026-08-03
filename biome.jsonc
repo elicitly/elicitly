@@ -1,0 +1,28 @@
+{
+  // Use local Biome schema from node_modules
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+
+  // Respect .gitignore (skips dist/, node_modules/, .turbo/, etc.)
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": { "includes": ["**", "!**/dist"] },
+
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on",
+        "noDuplicateClasses": "on"
+      }
+    }
+  },
+
+  "formatter": {
+    "indentStyle": "space",
+    "lineWidth": 100
+  },
+
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded"
+    }
+  }
+}

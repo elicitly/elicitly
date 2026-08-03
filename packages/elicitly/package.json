@@ -1,0 +1,50 @@
+{
+  "name": "elicitly",
+  "version": "0.1.0",
+  "description": "Local (stdio) MCP server that gives your prompts and Agent Skills MCP elicitation — human-in-the-loop dialogs (elicit_confirm, elicit_form) and the elicit_doctor capability report, with no server of your own.",
+  "keywords": [
+    "mcp",
+    "elicitation",
+    "human-in-the-loop",
+    "mcp-server",
+    "model-context-protocol",
+    "agent-skills"
+  ],
+  "license": "Apache-2.0",
+  "author": "Preneur LLC",
+  "homepage": "https://www.elicitly.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elicitly/elicitly.git",
+    "directory": "packages/elicitly"
+  },
+  "bugs": "https://github.com/elicitly/elicitly/issues",
+  "type": "module",
+  "bin": {
+    "elicitly": "./dist/cli.mjs"
+  },
+  "files": [
+    "dist",
+    "NOTICE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/cli.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@elicitly/tools": "workspace:*",
+    "@types/node": "^26.1.2",
+    "tsdown": "^0.22.14",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  }
+}
