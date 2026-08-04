@@ -1,5 +1,8 @@
 # Elicitly — Free Edition
 
+[![npm — elicitly](https://img.shields.io/npm/v/elicitly?label=elicitly)](https://www.npmjs.com/package/elicitly)
+[![npm — @elicitly/tools](https://img.shields.io/npm/v/%40elicitly%2Ftools?label=%40elicitly%2Ftools)](https://www.npmjs.com/package/@elicitly/tools)
+
 **Your AI has questions. Your users have answers.** Elicitly connects them —
 human-in-the-loop for prompts and [Agent Skills](https://agentskills.io/) over
 [MCP elicitation](https://modelcontextprotocol.io/docs/learn/client-concepts).
