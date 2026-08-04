@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@v6.0.9
 
       # No registry-url here: that input writes an _authToken line into
       # .npmrc, and trusted publishing must authenticate via OIDC alone.
