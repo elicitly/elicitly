@@ -1,3 +1,4 @@
+import { ErrorCode } from "@modelcontextprotocol/sdk/types.js"
 import {
   buildPassiveReport,
   classifyProbe,
@@ -6,6 +7,18 @@ import {
   scalarSchema,
 } from "./core/index.js"
 import type { ClientInfoFn, ElicitFn } from "./types.js"
+
+/**
+ * The SDK rejects an unanswered request with McpError RequestTimeout (-32001);
+ * a structural check (not instanceof) so a duplicated SDK copy still matches.
+ */
+function isRequestTimeout(err: unknown): boolean {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    (err as { code?: unknown }).code === ErrorCode.RequestTimeout
+  )
+}
 
 export type DoctorProbe = {
   attempted: boolean
@@ -58,15 +71,20 @@ export async function doctor(
         verdict: classifyProbe({ action: res.action, latencyMs }),
       },
     }
-  } catch {
+  } catch (err) {
     const latencyMs = Date.now() - start
+    // A timeout means elicitation is likely fine and the probe simply outlasted
+    // the human (the SDK's 60s default governs — see makeElicitAdapter); any
+    // other rejection means the advertised capability didn't work.
+    const action = isRequestTimeout(err) ? "timeout" : "error"
     out.probes = {
       elicitationForm: {
         attempted: true,
-        action: "error",
+        action,
         latencyMs,
         data: null,
-        verdict: classifyProbe({ action: "error", latencyMs }),
+        ...(action === "timeout" ? { reason: "no answer within the request timeout window" } : {}),
+        verdict: classifyProbe({ action, latencyMs }),
       },
     }
   }

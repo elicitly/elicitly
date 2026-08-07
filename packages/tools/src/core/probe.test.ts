@@ -8,6 +8,9 @@ describe("classifyProbe", () => {
   it("error => unsupported", () => {
     expect(classifyProbe({ action: "error", latencyMs: 3 })).toBe("unsupported")
   })
+  it("timeout => advertised_but_unanswered", () => {
+    expect(classifyProbe({ action: "timeout", latencyMs: 60000 })).toBe("advertised_but_unanswered")
+  })
   it("fast cancel => advertised_but_broken", () => {
     expect(classifyProbe({ action: "cancel", latencyMs: FAST_CANCEL_MS - 1 })).toBe(
       "advertised_but_broken",

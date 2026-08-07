@@ -16,7 +16,7 @@ prompt or Agent Skill — and its cross-host support visible.
   (elicitation *form* vs *url* mode, sampling, roots), and with
   `probeElicitation: true` runs one live elicitation round-trip and classifies
   the result (`working`, `advertised_but_broken`, `user_declined`,
-  `unsupported`).
+  `advertised_but_unanswered`, `unsupported`).
 
 ## Run it
 

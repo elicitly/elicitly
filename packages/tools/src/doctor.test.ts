@@ -1,3 +1,4 @@
+import { ErrorCode, McpError } from "@modelcontextprotocol/sdk/types.js"
 import { describe, expect, it, vi } from "vitest"
 import { doctor } from "./doctor.js"
 import type { ClientInfoFn, ElicitFn } from "./types.js"
@@ -50,6 +51,18 @@ describe("elicit_doctor", () => {
     const elicit: ElicitFn = vi.fn().mockRejectedValue(new Error("no elicitation"))
     const report = await doctor({ clientView, elicit, serverInfo }, true)
     expect(report.probes?.elicitationForm.verdict).toBe("unsupported")
+  })
+
+  it("probe: SDK request timeout => advertised_but_unanswered", async () => {
+    const elicit: ElicitFn = vi
+      .fn()
+      .mockRejectedValue(
+        McpError.fromError(ErrorCode.RequestTimeout, "Request timed out", { timeout: 60000 }),
+      )
+    const report = await doctor({ clientView, elicit, serverInfo }, true)
+    expect(report.probes?.elicitationForm.action).toBe("timeout")
+    expect(report.probes?.elicitationForm.verdict).toBe("advertised_but_unanswered")
+    expect(report.probes?.elicitationForm.reason).toMatch(/timeout window/)
   })
 
   it("probe skipped when client does not advertise elicitation", async () => {
