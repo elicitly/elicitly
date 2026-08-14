@@ -9,15 +9,18 @@ export type ConfirmOptions = {
 
 export type ConfirmResult = {
   confirmed: boolean | null
-  action?: "accept" | "decline" | "cancel" | "error"
-  message?: string
+  /** Present only when `confirmed` is null: why no answer was obtained. */
+  reason?: "dismissed" | "error"
 }
 
 /**
  * Modeled on JavaScript's window.confirm(): OK/Cancel by default, with label
  * overrides. Deliberate deviation: the result stays three-state — an explicit
- * Cancel choice is `confirmed: false`, while a dismissed/errored elicitation is
- * `confirmed: null` — where JS collapses both to false.
+ * Cancel choice is `confirmed: false` (as is declining the elicitation), while
+ * a dismissed/errored elicitation is `confirmed: null` — where JS collapses
+ * all of these to false. The MCP-level action is deliberately not echoed:
+ * `action: "accept"` beside `confirmed: false` invites misreading, and which
+ * control carried the "no" has no caller value.
  */
 export async function confirm(
   elicit: ElicitFn,
@@ -42,13 +45,13 @@ export async function confirm(
 
   const result = await elicitForm(elicit, message, requestedSchema, options.timeoutSeconds)
   if (result.action === "accept") {
-    return { confirmed: result.content?.value === "ok", action: "accept" }
+    return { confirmed: result.content?.value === "ok" }
   }
   if (result.action === "cancel") {
-    return { confirmed: null, action: "cancel", message }
+    return { confirmed: null, reason: "dismissed" }
   }
   if (result.action === "error") {
-    return { confirmed: null, action: "error", message }
+    return { confirmed: null, reason: "error" }
   }
-  return { confirmed: false, action: "decline" }
+  return { confirmed: false }
 }

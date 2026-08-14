@@ -34,7 +34,7 @@ describe("elicit_confirm", () => {
       { const: "ok", title: "Aceptar" },
       { const: "cancel", title: "Cancelar" },
     ])
-    expect(res).toEqual({ confirmed: false, action: "accept" })
+    expect(res).toEqual({ confirmed: false })
   })
 
   it("forwards timeoutSeconds to elicit, clamped like elicit_form", async () => {
@@ -50,32 +50,27 @@ describe("elicit_confirm", () => {
     const elicit: ElicitFn = vi
       .fn()
       .mockResolvedValue({ action: "accept", content: { value: "ok" } })
-    expect(await confirm(elicit, "Delete file?")).toEqual({ confirmed: true, action: "accept" })
+    expect(await confirm(elicit, "Delete file?")).toEqual({ confirmed: true })
   })
 
-  it("decline => confirmed false with action decline", async () => {
+  it("decline => confirmed false, indistinguishable from a Cancel choice", async () => {
     const elicit: ElicitFn = vi.fn().mockResolvedValue({ action: "decline", content: null })
-    expect(await confirm(elicit, "Delete file?")).toEqual({
-      confirmed: false,
-      action: "decline",
-    })
+    expect(await confirm(elicit, "Delete file?")).toEqual({ confirmed: false })
   })
 
-  it("cancel => confirmed null with message echoed", async () => {
+  it("cancel => confirmed null with reason dismissed", async () => {
     const elicit: ElicitFn = vi.fn().mockResolvedValue({ action: "cancel", content: null })
     expect(await confirm(elicit, "Delete file?")).toEqual({
       confirmed: null,
-      action: "cancel",
-      message: "Delete file?",
+      reason: "dismissed",
     })
   })
 
-  it("unsupported (elicit rejects) => confirmed null with action error", async () => {
+  it("unsupported (elicit rejects) => confirmed null with reason error", async () => {
     const elicit: ElicitFn = vi.fn().mockRejectedValue(new Error("unsupported"))
     expect(await confirm(elicit, "Delete file?")).toEqual({
       confirmed: null,
-      action: "error",
-      message: "Delete file?",
+      reason: "error",
     })
   })
 })

@@ -30,7 +30,7 @@ export function registerFormTools(
     "elicit_confirm",
     {
       description:
-        'Ask the user an OK/Cancel confirmation via elicitation (convenience wrapper over elicit_form), modeled on JavaScript\'s confirm(). `message` is the question shown to the user. Override labels.ok / labels.cancel to relabel or localize (e.g. labels: { ok: "Aceptar", cancel: "Cancelar" }); labels are capped at 40 characters. timeoutSeconds bounds how long to wait for the answer (default 300, clamped 60-3600).',
+        'Ask the user an OK/Cancel confirmation via elicitation (convenience wrapper over elicit_form), modeled on JavaScript\'s confirm(). `message` is the question shown to the user. Override labels.ok / labels.cancel to relabel or localize (e.g. labels: { ok: "Aceptar", cancel: "Cancelar" }); labels are capped at 40 characters. timeoutSeconds bounds how long to wait for the answer (default 300, clamped 60-3600). Returns three-state {confirmed}: true = proceed, false = a human explicitly said no, null = no answer was obtained (reason: "dismissed" | "error") — ask again later.',
       inputSchema: {
         message: z.string(),
         labels: z.object({ ok: label.optional(), cancel: label.optional() }).strict().optional(),

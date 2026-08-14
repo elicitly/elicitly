@@ -47,7 +47,7 @@ describe("registerFormTools", () => {
     const client = await connect(async () => ({ action: "accept", content: { value: "ok" } }))
     const res = await client.callTool({ name: "elicit_confirm", arguments: { message: "ok?" } })
     const text = (res.content as { type: string; text: string }[])[0].text
-    expect(JSON.parse(text)).toEqual({ confirmed: true, action: "accept" })
+    expect(JSON.parse(text)).toEqual({ confirmed: true })
   })
 
   it("confirm forwards valid labels into the elicitation schema titles", async () => {
