@@ -16,8 +16,8 @@
     "release": "pnpm run build && pnpm -r publish --access public --no-git-checks && changeset tag"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.7",
-    "@changesets/cli": "^2.31.1",
+    "@biomejs/biome": "2.5.8",
+    "@changesets/cli": "^3.0.0",
     "turbo": "^2.10.9",
     "typescript": "^7.0.2",
     "vitest": "^4.1.10"
