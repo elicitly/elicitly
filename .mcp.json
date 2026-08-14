@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "elicitly-free-dev": {
+      "command": "node",
+      "args": ["packages/elicitly/dist/cli.mjs"]
+    },
+    "elicitly-free": {
+      "command": "npx",
+      "args": ["-y", "elicitly"]
+    }
+  }
+}
