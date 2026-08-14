@@ -1,6 +1,6 @@
 {
   "name": "elicitly",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Local (stdio) MCP server that gives your prompts and Agent Skills MCP elicitation — human-in-the-loop dialogs (elicit_confirm, elicit_form) and the elicit_doctor capability report, with no server of your own.",
   "keywords": [
     "mcp",
