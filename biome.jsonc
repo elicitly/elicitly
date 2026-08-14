@@ -4,7 +4,7 @@
 
   // Respect .gitignore (skips dist/, node_modules/, .turbo/, etc.)
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
-  "files": { "includes": ["**", "!**/dist"] },
+  "files": { "includes": ["**", "!**/dist", "!.claude"] },
 
   "assist": {
     "actions": {
