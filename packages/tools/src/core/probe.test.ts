@@ -11,15 +11,18 @@ describe("classifyProbe", () => {
   it("timeout => advertised_but_unanswered", () => {
     expect(classifyProbe({ action: "timeout", latencyMs: 60000 })).toBe("advertised_but_unanswered")
   })
-  it("fast cancel => advertised_but_broken", () => {
+  it("the observed Claude Code remote auto-cancel (1533ms) classifies as autocanceled", () => {
+    expect(classifyProbe({ action: "cancel", latencyMs: 1533 })).toBe("advertised_but_autocanceled")
+  })
+  it("fast cancel => advertised_but_autocanceled", () => {
     expect(classifyProbe({ action: "cancel", latencyMs: FAST_CANCEL_MS - 1 })).toBe(
-      "advertised_but_broken",
+      "advertised_but_autocanceled",
     )
   })
   it("slow cancel => user_declined", () => {
     expect(classifyProbe({ action: "cancel", latencyMs: FAST_CANCEL_MS + 1 })).toBe("user_declined")
   })
-  it("fast decline => advertised_but_broken", () => {
-    expect(classifyProbe({ action: "decline", latencyMs: 5 })).toBe("advertised_but_broken")
+  it("fast decline => advertised_but_autocanceled", () => {
+    expect(classifyProbe({ action: "decline", latencyMs: 5 })).toBe("advertised_but_autocanceled")
   })
 })

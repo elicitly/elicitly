@@ -15,7 +15,7 @@ prompt or Agent Skill — and its cross-host support visible.
   [client features](https://modelcontextprotocol.io/docs/learn/client-concepts)
   (elicitation *form* vs *url* mode, sampling, roots), and with
   `probeElicitation: true` runs one live elicitation round-trip and classifies
-  the result (`working`, `advertised_but_broken`, `user_declined`,
+  the result (`working`, `advertised_but_autocanceled`, `user_declined`,
   `advertised_but_unanswered`, `unsupported`).
 
 ## Run it
