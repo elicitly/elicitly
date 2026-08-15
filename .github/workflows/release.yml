@@ -5,8 +5,10 @@ name: Release
 # publishing (GitHub Actions OIDC — no long-lived token). Both packages'
 # npm settings name this repo + workflow as their trusted publisher.
 # The publish command is pnpm-based so workspace:* devDeps and version
-# ranges are resolved by pnpm at pack time; `changeset tag` then pushes
-# the git tags. Provenance is generated automatically by the OIDC flow.
+# ranges are resolved by pnpm at pack time; `changeset git-tag` then
+# reports the tags to the action via the CHANGESETS_OUTPUT file (requires
+# action v2 + Changesets CLI v3), and the action pushes the tags and
+# creates the GitHub Releases. Provenance comes from the OIDC flow.
 on:
   push:
     branches: [main]
@@ -36,8 +38,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Create release PR or publish
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
-          publish: pnpm release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          publish-script: pnpm release

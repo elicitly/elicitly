@@ -14,7 +14,7 @@
     "typecheck": "turbo run typecheck",
     "check": "biome check",
     "check:fix": "biome check --write",
-    "release": "pnpm run build && pnpm -r publish --access public --no-git-checks && changeset tag"
+    "release": "pnpm run build && pnpm -r publish --access public --no-git-checks && changeset git-tag"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.8",
