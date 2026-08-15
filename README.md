@@ -2,6 +2,9 @@
 
 [![npm — elicitly](https://img.shields.io/npm/v/elicitly?label=elicitly)](https://www.npmjs.com/package/elicitly)
 [![npm — @elicitly/tools](https://img.shields.io/npm/v/%40elicitly%2Ftools?label=%40elicitly%2Ftools)](https://www.npmjs.com/package/@elicitly/tools)
+[![CI](https://github.com/elicitly/elicitly/actions/workflows/ci.yml/badge.svg)](https://github.com/elicitly/elicitly/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/docs-elicitly.ai-blue)](https://www.elicitly.ai/docs/)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-green)](./LICENSE)
 
 **Your AI has questions. Your users have answers.** Elicitly connects them —
 human-in-the-loop for prompts and [Agent Skills](https://agentskills.io/) over
@@ -47,6 +50,7 @@ public [Support Matrix](https://www.elicitly.ai/docs/elicitation/support-matrix/
     pnpm install
     pnpm build        # tsdown builds both packages
     pnpm test         # vitest
+    pnpm test:coverage # vitest + v8 coverage (thresholds enforced; HTML report in coverage/)
     pnpm typecheck    # tsc
     pnpm check        # biome
 

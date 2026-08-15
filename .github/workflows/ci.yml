@@ -30,6 +30,6 @@ jobs:
 
       # Separate steps so a failing check is obvious in the GitHub UI.
       - run: pnpm build
-      - run: pnpm test
+      - run: pnpm test:coverage
       - run: pnpm typecheck
       - run: pnpm check
