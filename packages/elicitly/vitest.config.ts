@@ -8,7 +8,7 @@ export default defineConfig({
       // and by hosts, not unit-testable without spawning a process.
       include: ["src/**"],
       exclude: ["src/cli.ts"],
-      reporter: ["text", "html"],
+      reporter: ["text", "html", "lcov"],
       thresholds: { statements: 90, branches: 90, functions: 90, lines: 90 },
     },
   },

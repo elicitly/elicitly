@@ -3,6 +3,7 @@
 [![npm — elicitly](https://img.shields.io/npm/v/elicitly?label=elicitly)](https://www.npmjs.com/package/elicitly)
 [![npm — @elicitly/tools](https://img.shields.io/npm/v/%40elicitly%2Ftools?label=%40elicitly%2Ftools)](https://www.npmjs.com/package/@elicitly/tools)
 [![CI](https://github.com/elicitly/elicitly/actions/workflows/ci.yml/badge.svg)](https://github.com/elicitly/elicitly/actions/workflows/ci.yml)
+[![Coverage](https://codecov.io/gh/elicitly/elicitly/graph/badge.svg)](https://codecov.io/gh/elicitly/elicitly)
 [![Docs](https://img.shields.io/badge/docs-elicitly.ai-blue)](https://www.elicitly.ai/docs/)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-green)](./LICENSE)
 
