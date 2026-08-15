@@ -47,10 +47,18 @@ describe("elicit_doctor", () => {
     expect(report.probes?.elicitationForm.data).toBe("ok")
   })
 
-  it("probe: rejection => unsupported", async () => {
+  it("probe: rejection => unsupported, with the rejection detail in reason", async () => {
     const elicit: ElicitFn = vi.fn().mockRejectedValue(new Error("no elicitation"))
     const report = await doctor({ clientView, elicit, serverInfo }, true)
     expect(report.probes?.elicitationForm.verdict).toBe("unsupported")
+    expect(report.probes?.elicitationForm.reason).toBe("Error: no elicitation")
+  })
+
+  it("probe: rejection reason is clipped to 300 chars", async () => {
+    const elicit: ElicitFn = vi.fn().mockRejectedValue(new Error("x".repeat(500)))
+    const report = await doctor({ clientView, elicit, serverInfo }, true)
+    expect(report.probes?.elicitationForm.reason).toHaveLength(301)
+    expect(report.probes?.elicitationForm.reason?.endsWith("…")).toBe(true)
   })
 
   it("probe: SDK request timeout => advertised_but_unanswered", async () => {

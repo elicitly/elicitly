@@ -20,6 +20,12 @@ function isRequestTimeout(err: unknown): boolean {
   )
 }
 
+/** One-line rejection summary for the probe report, clipped to 300 chars. */
+function describeError(err: unknown): string {
+  const s = err instanceof Error ? `${err.name}: ${err.message}` : String(err)
+  return s.length > 300 ? `${s.slice(0, 300)}…` : s
+}
+
 export type DoctorProbe = {
   attempted: boolean
   reason?: string
@@ -75,7 +81,11 @@ export async function doctor(
     const latencyMs = Date.now() - start
     // A timeout means elicitation is likely fine and the probe simply outlasted
     // the human (the SDK's 60s default governs — see makeElicitAdapter); any
-    // other rejection means the advertised capability didn't work.
+    // other rejection means the advertised capability didn't work. The raw
+    // rejection rides `reason` so a fingerprint pinpoints WHERE it broke
+    // (client error response vs. malformed result vs. transport) — this is
+    // diagnostic output for the person probing, deliberately not telemetry:
+    // host bugs are theirs to fix, and alerting ourselves on them is noise.
     const action = isRequestTimeout(err) ? "timeout" : "error"
     out.probes = {
       elicitationForm: {
@@ -83,7 +93,8 @@ export async function doctor(
         action,
         latencyMs,
         data: null,
-        ...(action === "timeout" ? { reason: "no answer within the request timeout window" } : {}),
+        reason:
+          action === "timeout" ? "no answer within the request timeout window" : describeError(err),
         verdict: classifyProbe({ action, latencyMs }),
       },
     }
