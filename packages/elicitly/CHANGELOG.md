@@ -1,5 +1,11 @@
 # elicitly
 
+## 0.4.1
+
+### Patch Changes
+
+- 8e8b582: Add `mcpName` (`ai.elicitly/elicitly`) for Official MCP Registry ownership verification — the registry reads this field from the published npm artifact to prove the registry entry and the package share an owner.
+
 ## 0.4.0
 
 ### Minor Changes
