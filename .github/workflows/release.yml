@@ -38,6 +38,40 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Create release PR or publish
+        id: changesets
         uses: changesets/action@v2
         with:
           publish-script: pnpm release
+
+      # Keep the MCP Registry entry (ai.elicitly/elicitly) in step with npm:
+      # registry versions are immutable per-publish records, so every released
+      # `elicitly` version is republished or the registry advertises a stale
+      # one. DNS-namespace auth — MCP_REGISTRY_PRIVATE_KEY holds the Ed25519
+      # key as PEM; the seed hex mcp-publisher wants is derived at run time.
+      # The synced server.json is committed back so the repo copy stays an
+      # honest record of what was published ([skip ci]: nothing to rebuild).
+      - name: Publish to MCP Registry
+        if: steps.changesets.outputs.published == 'true'
+        env:
+          PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
+          MCP_REGISTRY_PRIVATE_KEY: ${{ secrets.MCP_REGISTRY_PRIVATE_KEY }}
+        run: |
+          VERSION=$(echo "$PACKAGES" | jq -r '.[] | select(.name == "elicitly") | .version')
+          if [ -z "$VERSION" ]; then
+            echo "elicitly not among published packages; registry publish skipped"
+            exit 0
+          fi
+          jq --arg v "$VERSION" '.version = $v | .packages[0].version = $v' server.json > server.tmp
+          mv server.tmp server.json
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+          SEED=$(printf '%s\n' "$MCP_REGISTRY_PRIVATE_KEY" | openssl pkey -text -noout | awk '/priv:/{f=1;next} /pub:/{f=0} f' | tr -d ' :\n')
+          ./mcp-publisher login dns --domain elicitly.ai --private-key "$SEED"
+          # One retry: the npm artifact published seconds ago and the registry
+          # validates mcpName against it; give propagation a moment if needed.
+          ./mcp-publisher publish || { sleep 30 && ./mcp-publisher publish; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add server.json
+          git commit -m "chore: server.json $VERSION (MCP Registry sync) [skip ci]"
+          git pull --rebase origin main
+          git push
