@@ -35,12 +35,12 @@ jobs:
       - run: pnpm check
 
       # One upload per package so Codecov tracks them as separate flags.
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: packages/elicitly/coverage/lcov.info
           flags: elicitly
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: packages/tools/coverage/lcov.info
