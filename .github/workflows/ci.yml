@@ -40,8 +40,10 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: packages/elicitly/coverage/lcov.info
           flags: elicitly
+          disable_search: true
       - uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: packages/tools/coverage/lcov.info
           flags: tools
+          disable_search: true
