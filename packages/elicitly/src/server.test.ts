@@ -15,3 +15,29 @@ describe("buildServer", () => {
     )
   })
 })
+
+describe("contribute-fingerprint prompt", () => {
+  it("is registered with its title and walks the GitHub-issue contribution flow", async () => {
+    const { Client } = await import("@modelcontextprotocol/sdk/client/index.js")
+    const { InMemoryTransport } = await import("@modelcontextprotocol/sdk/inMemory.js")
+    const { server } = buildServer("0.0.0-test")
+    const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair()
+    const client = new Client({ name: "c", version: "0" })
+    await Promise.all([server.connect(serverTransport), client.connect(clientTransport)])
+
+    const prompts = (await client.listPrompts()).prompts
+    expect(prompts).toHaveLength(1)
+    expect(prompts[0]).toMatchObject({
+      name: "contribute-fingerprint",
+      title: "Contribute a fingerprint",
+    })
+
+    const got = await client.getPrompt({ name: "contribute-fingerprint" })
+    const text = (got.messages[0]?.content as { text: string } | undefined)?.text ?? ""
+    // Free-edition flow: probe + pre-filled GitHub issue, never an automatic send.
+    expect(text).toContain("probeElicitation: true")
+    expect(text).toContain("github.com/elicitly/elicitly/issues/new")
+    expect(text).toContain("nothing is ever sent")
+    expect(text).not.toContain("share: true")
+  })
+})
