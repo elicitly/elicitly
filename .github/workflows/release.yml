@@ -12,6 +12,10 @@ name: Release
 on:
   push:
     branches: [main]
+  # Manual dispatch: heals MCP Registry drift on demand (the registry step
+  # compares npm's released version against the registry's latest and
+  # publishes only when they differ).
+  workflow_dispatch:
 
 concurrency: release-${{ github.ref }}
 
@@ -46,19 +50,25 @@ jobs:
       # Keep the MCP Registry entry (ai.elicitly/elicitly) in step with npm:
       # registry versions are immutable per-publish records, so every released
       # `elicitly` version is republished or the registry advertises a stale
-      # one. DNS-namespace auth — MCP_REGISTRY_PRIVATE_KEY holds the Ed25519
-      # key as PEM; the seed hex mcp-publisher wants is derived at run time.
-      # The synced server.json is committed back so the repo copy stays an
-      # honest record of what was published ([skip ci]: nothing to rebuild).
+      # one. The version comes from packages/elicitly/package.json (what the
+      # Version Packages merge just set) compared against the registry's own
+      # latest — NOT from the changesets action's publishedPackages output,
+      # which arrived empty on the 0.5.0 release and silently skipped the
+      # publish. Drift-compare is self-healing and skips tools-only releases
+      # naturally. DNS-namespace auth — MCP_REGISTRY_PRIVATE_KEY holds the
+      # Ed25519 key as PEM; the seed hex mcp-publisher wants is derived at
+      # run time. The synced server.json is committed back so the repo copy
+      # stays an honest record ([skip ci]: nothing to rebuild).
       - name: Publish to MCP Registry
-        if: steps.changesets.outputs.published == 'true'
+        if: steps.changesets.outputs.published == 'true' || github.event_name == 'workflow_dispatch'
         env:
-          PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
           MCP_REGISTRY_PRIVATE_KEY: ${{ secrets.MCP_REGISTRY_PRIVATE_KEY }}
         run: |
-          VERSION=$(echo "$PACKAGES" | jq -r '.[] | select(.name == "elicitly") | .version')
-          if [ -z "$VERSION" ]; then
-            echo "elicitly not among published packages; registry publish skipped"
+          VERSION=$(jq -r .version packages/elicitly/package.json)
+          CURRENT=$(curl -fsS "https://registry.modelcontextprotocol.io/v0/servers?search=ai.elicitly/elicitly&version=latest" | jq -r '.servers[0].server.version // empty')
+          echo "npm/package.json: $VERSION — registry latest: ${CURRENT:-none}"
+          if [ "$VERSION" = "$CURRENT" ]; then
+            echo "registry already at $VERSION; nothing to publish"
             exit 0
           fi
           jq --arg v "$VERSION" '.version = $v | .packages[0].version = $v' server.json > server.tmp
