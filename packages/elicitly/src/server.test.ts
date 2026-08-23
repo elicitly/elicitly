@@ -39,5 +39,10 @@ describe("contribute-fingerprint prompt", () => {
     expect(text).toContain("github.com/elicitly/elicitly/issues/new")
     expect(text).toContain("nothing is ever sent")
     expect(text).not.toContain("share: true")
+    // Hardening (#15): provenance preamble (defuses the injection read when a
+    // host delivers the prompt as an attachment) and timeout-as-signal.
+    expect(text).toContain("user-initiated")
+    expect(text).toContain("advertised_but_unanswered")
+    expect(text).toContain("probeElicitation: false")
   })
 })
