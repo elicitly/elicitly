@@ -44,5 +44,7 @@ describe("contribute-fingerprint prompt", () => {
     expect(text).toContain("user-initiated")
     expect(text).toContain("advertised_but_unanswered")
     expect(text).toContain("probeElicitation: false")
+    // The archived JSON goes into the issue pretty-printed so a human can read it.
+    expect(text).toContain("pretty-printed")
   })
 })
