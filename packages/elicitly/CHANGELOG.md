@@ -1,5 +1,12 @@
 # elicitly
 
+## 0.5.1
+
+### Patch Changes
+
+- 534b305: Harden the `contribute-fingerprint` prompt for hosts that deliver MCP prompts as file attachments and for hosts that never render the probe dialog. The prompt now opens by stating it is user-initiated (so a cautious model doesn't read it as injected instructions and refuse), and it treats a probe timeout as a valid finding (`advertised_but_unanswered`) rather than a dead end — including the report as-is, and falling back to `probeElicitation: false` with a note only if the tool call itself is killed. Mirrors the hosted edition's prompt. Fixes [#15](https://github.com/elicitly/elicitly/issues/15).
+- 81c7126: The `contribute-fingerprint` prompt now embeds the `elicit_doctor` report pretty-printed (2-space indentation) in the pre-filled GitHub issue instead of a single minified line, so the human reviewing the issue can actually read it. Values are unchanged — only whitespace — and the existing paste-manually fallback still covers the rare oversize URL.
+
 ## 0.5.0
 
 ### Minor Changes
