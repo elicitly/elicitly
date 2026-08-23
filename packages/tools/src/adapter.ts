@@ -17,9 +17,10 @@ export function makeElicitAdapter(
   const elicit: ElicitFn = async ({ message, requestedSchema, timeoutSeconds }) => {
     // Our ElicitSchema is intentionally generic raw JSON Schema (validator-agnostic);
     // the SDK types requestedSchema strictly, so cast at this single boundary.
-    // timeoutSeconds is left undefined when the caller doesn't supply one (e.g.
-    // doctor's direct probe call) so the SDK's own 60s default governs — the
-    // more generous default lives in elicitForm, not here.
+    // timeoutSeconds is left undefined when the caller doesn't supply one, so
+    // the SDK's own 60s default governs; doctor's probe DOES supply one
+    // (PROBE_TIMEOUT_S, below host limits), and the more generous default
+    // lives in elicitForm — neither is clamped here.
     const res = await low.elicitInput(
       { message, requestedSchema } as Parameters<typeof low.elicitInput>[0],
       timeoutSeconds !== undefined ? { timeout: timeoutSeconds * 1000 } : undefined,

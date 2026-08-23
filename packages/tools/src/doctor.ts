@@ -40,6 +40,17 @@ export type DoctorReport = PassiveReport & {
   probes?: { elicitationForm: DoctorProbe }
 }
 
+/**
+ * How long the probe holds the elicitation open. Deliberately below the ~60s
+ * tool-call timeout common to MCP hosts (Claude Desktop): the SDK's own
+ * default is also 60s, so an unbounded probe RACES the host limit and the
+ * finished `advertised_but_unanswered` report never returns in-band — the
+ * host kills the call first. 40s leaves room to serialize the report inside
+ * the host window, and a dialog unanswered for 40s already classifies as
+ * unanswered. See elicitly/elicitly#14, elicitly-pro#60.
+ */
+export const PROBE_TIMEOUT_S = 40
+
 export async function doctor(
   deps: {
     clientView: ClientInfoFn
@@ -64,6 +75,7 @@ export async function doctor(
     const res = await deps.elicit({
       message: "Elicitly diagnostic: select any option to confirm interactive elicitation works.",
       requestedSchema: scalarSchema(["ok"]),
+      timeoutSeconds: PROBE_TIMEOUT_S,
     })
     const latencyMs = Date.now() - start
     const data =
@@ -80,8 +92,9 @@ export async function doctor(
   } catch (err) {
     const latencyMs = Date.now() - start
     // A timeout means elicitation is likely fine and the probe simply outlasted
-    // the human (the SDK's 60s default governs — see makeElicitAdapter); any
-    // other rejection means the advertised capability didn't work. The raw
+    // the human (PROBE_TIMEOUT_S governs — bounded below host tool-call limits
+    // so this report still returns in-band); any other rejection means the
+    // advertised capability didn't work. The raw
     // rejection rides `reason` so a fingerprint pinpoints WHERE it broke
     // (client error response vs. malformed result vs. transport) — this is
     // diagnostic output for the person probing, deliberately not telemetry:

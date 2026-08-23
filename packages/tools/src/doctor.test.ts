@@ -1,6 +1,6 @@
 import { ErrorCode, McpError } from "@modelcontextprotocol/sdk/types.js"
 import { describe, expect, it, vi } from "vitest"
-import { doctor } from "./doctor.js"
+import { doctor, PROBE_TIMEOUT_S } from "./doctor.js"
 import type { ClientInfoFn, ElicitFn } from "./types.js"
 
 const serverInfo = { name: "elicitly", version: "0.1.0" }
@@ -45,6 +45,20 @@ describe("elicit_doctor", () => {
     expect(report.probes?.elicitationForm.attempted).toBe(true)
     expect(report.probes?.elicitationForm.verdict).toBe("working")
     expect(report.probes?.elicitationForm.data).toBe("ok")
+  })
+
+  it("probe: bounds the elicitation below host tool-call limits (#14)", async () => {
+    // The bug: with no timeout the probe inherits the SDK's 60s default and
+    // races the host's ~60s tool-call limit, so the advertised_but_unanswered
+    // report never returns in-band. The probe must ask for PROBE_TIMEOUT_S.
+    const elicit: ElicitFn = vi
+      .fn()
+      .mockResolvedValue({ action: "accept", content: { value: "ok" } })
+    await doctor({ clientView, elicit, serverInfo }, true)
+    expect(elicit).toHaveBeenCalledWith(
+      expect.objectContaining({ timeoutSeconds: PROBE_TIMEOUT_S }),
+    )
+    expect(PROBE_TIMEOUT_S).toBeLessThan(60)
   })
 
   it("probe: rejection => unsupported, with the rejection detail in reason", async () => {
