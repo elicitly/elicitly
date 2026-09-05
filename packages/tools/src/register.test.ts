@@ -43,6 +43,36 @@ describe("registerFormTools", () => {
     expect(names).toEqual(["elicit_confirm", "elicit_doctor", "elicit_form"])
   })
 
+  it("every tool ships title, annotations, outputSchema, and a description on every input property", async () => {
+    const client = await connect(async () => ({ action: "cancel", content: null }))
+    const { tools } = await client.listTools()
+    for (const tool of tools) {
+      expect(tool.title, tool.name).toBeTruthy()
+      expect(tool.annotations?.openWorldHint, tool.name).toBe(false)
+      expect(tool.outputSchema, tool.name).toBeDefined()
+      const props = tool.inputSchema.properties as Record<string, { description?: string }>
+      for (const [key, prop] of Object.entries(props)) {
+        expect(prop.description, `${tool.name}.${key}`).toBeTruthy()
+      }
+    }
+  })
+
+  it("results carry structuredContent that passes the declared outputSchema", async () => {
+    const client = await connect(async () => ({ action: "accept", content: { value: "ok" } }))
+    await client.listTools() // caches outputSchemas → the client validates structuredContent below
+    const res = await client.callTool({ name: "elicit_confirm", arguments: { message: "ok?" } })
+    expect(res.structuredContent).toEqual({ confirmed: true })
+    const form = await client.callTool({
+      name: "elicit_form",
+      arguments: { message: "m", requestedSchema: { type: "object", properties: {} } },
+    })
+    expect(form.structuredContent).toEqual({ action: "accept", content: { value: "ok" } })
+    const doc = await client.callTool({ name: "elicit_doctor", arguments: {} })
+    expect((doc.structuredContent as { support: object }).support).toMatchObject({
+      elicitation: false,
+    })
+  })
+
   it("confirm round-trips an accepted OK to confirmed:true", async () => {
     const client = await connect(async () => ({ action: "accept", content: { value: "ok" } }))
     const res = await client.callTool({ name: "elicit_confirm", arguments: { message: "ok?" } })
