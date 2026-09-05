@@ -2,7 +2,7 @@
   "name": "elicitly",
   "version": "0.5.1",
   "mcpName": "ai.elicitly/elicitly",
-  "description": "Local (stdio) MCP server that gives your prompts and Agent Skills MCP elicitation — human-in-the-loop dialogs (elicit_confirm, elicit_form) and the elicit_doctor capability report, with no server of your own.",
+  "description": "Local (stdio) MCP server that gives your prompts and Agent Skills MCP elicitation \u2014 human-in-the-loop dialogs (elicit_confirm, elicit_form) and the elicit_doctor capability report, with no server of your own.",
   "keywords": [
     "mcp",
     "elicitation",
@@ -39,15 +39,15 @@
     "start": "node dist/cli.mjs"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.30.0",
-    "zod": "^4.5.4"
+    "@modelcontextprotocol/sdk": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@elicitly/tools": "workspace:*",
     "@types/node": "^26.4.1",
-    "@vitest/coverage-v8": "^5.0.0",
-    "tsdown": "^0.23.0",
-    "typescript": "^7.0.2",
-    "vitest": "^5.0.0"
+    "@vitest/coverage-v8": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }

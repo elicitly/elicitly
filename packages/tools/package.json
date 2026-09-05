@@ -1,7 +1,7 @@
 {
   "name": "@elicitly/tools",
   "version": "0.5.1",
-  "description": "Embeddable MCP elicitation toolkit — register elicit_confirm, elicit_form, and elicit_doctor on any McpServer, plus the elicitation-schema types and capability report/probe layer.",
+  "description": "Embeddable MCP elicitation toolkit \u2014 register elicit_confirm, elicit_form, and elicit_doctor on any McpServer, plus the elicitation-schema types and capability report/probe layer.",
   "keywords": [
     "mcp",
     "elicitation",
@@ -42,13 +42,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.30.0",
-    "zod": "^4.5.4"
+    "@modelcontextprotocol/sdk": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^5.0.0",
-    "tsdown": "^0.23.0",
-    "typescript": "^7.0.2",
-    "vitest": "^5.0.0"
+    "@vitest/coverage-v8": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }
