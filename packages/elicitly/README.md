@@ -43,6 +43,17 @@ The bundle is self-contained — no Node.js or npm setup of your own; it runs
 on Claude Desktop's managed runtime. Build it from source with
 `pnpm --filter elicitly build:mcpb`.
 
+> **Claude Desktop and dialogs:** current Claude Desktop builds don't
+> advertise elicitation to local MCP servers (config-file and extension
+> installs alike — measured, not assumed), so `elicit_confirm` and
+> `elicit_form` return their graceful no-answer contract there rather than
+> raising a dialog. `elicit_doctor` still reports the host truthfully — that
+> report is the point. See the
+> [Elicitation Support Matrix](https://www.elicitly.ai/docs/elicitation/support-matrix/)
+> for hosts where dialogs work, and the
+> [Pro Edition](https://www.elicitly.ai/docs/pro/) for approvals that reach a
+> browser-based review page when the host has no native dialog.
+
 ## Exercise it
 
 1. **elicit_doctor** — passive capability report, no user prompt. Check
