@@ -49,6 +49,9 @@ describe("contribute-fingerprint prompt", () => {
     expect(text).not.toContain("user-initiated")
     expect(text).toContain("advertised_but_unanswered")
     expect(text).toContain("probeElicitation: false")
+    // Attachment path (config-file vs MCPB) — hosts run different embedded
+    // clients per path, so the contribution records which one was measured.
+    expect(text).toContain("Attached via")
     // The exfiltration shape (data encoded into a clickable URL) must stay out
     // for the same filter; the contribution is copy-paste.
     expect(text).not.toContain("issues/new?")
