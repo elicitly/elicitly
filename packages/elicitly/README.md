@@ -34,6 +34,15 @@ or in a host config file (`.mcp.json` or client settings):
       }
     }
 
+### Claude Desktop (one-click)
+
+Download `elicitly.mcpb` from the
+[latest release](https://github.com/elicitly/elicitly/releases/latest) and
+open it in Claude Desktop (or Settings → Extensions → Install extension).
+The bundle is self-contained — no Node.js or npm setup of your own; it runs
+on Claude Desktop's managed runtime. Build it from source with
+`pnpm --filter elicitly build:mcpb`.
+
 ## Exercise it
 
 1. **elicit_doctor** — passive capability report, no user prompt. Check
@@ -50,6 +59,14 @@ Full docs: [elicitly.ai/docs](https://www.elicitly.ai/docs/)
     pnpm install
     pnpm --filter elicitly build   # produces packages/elicitly/dist/cli.mjs
     claude mcp add elicitly -- node /absolute/path/to/packages/elicitly/dist/cli.mjs
+
+## Privacy
+
+The server runs entirely on your machine: tool calls and elicitation answers
+stay between your MCP host and the local process, and nothing is sent
+anywhere. The `contribute-fingerprint` prompt only *prepares* a GitHub issue
+link — you review and submit it yourself. Project privacy policy:
+<https://www.elicitly.ai/privacy/>
 
 ## License
 
