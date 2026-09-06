@@ -1,0 +1,58 @@
+# Scratch experiment (not CI): minimal reproduction of the platform-optional
+# dependency being skipped when devEngines.runtime is pinned in the lockfile.
+# Two jobs on the same runner image: control (no devEngines) and repro
+# (devEngines.runtime node ^22). Both build a throwaway project containing
+# only rolldown, freeze the lockfile, reinstall, and check the linux binding.
+# Delete this branch after the upstream report is filed.
+name: runtime-repro
+on:
+  push:
+    branches: [pnpm-runtime-repro]
+jobs:
+  control:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v2.1.0
+        with:
+          runtime: node@22
+          install: false
+      - name: repro without devEngines (control)
+        run: |
+          mkdir /tmp/proj && cd /tmp/proj
+          cat > package.json <<'JSON'
+          { "name": "repro", "private": true, "devDependencies": { "rolldown": "1.2.7" } }
+          JSON
+          pnpm install
+          rm -rf node_modules
+          pnpm install --frozen-lockfile --no-runtime
+          echo "--- installed bindings:"
+          ls node_modules/.pnpm | grep -i binding || echo "(none)"
+          node -e "require('rolldown'); console.log('rolldown loads OK')"
+  repro:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v2.1.0
+        with:
+          runtime: node@22
+          install: false
+      - name: repro with devEngines.runtime
+        run: |
+          mkdir /tmp/proj && cd /tmp/proj
+          cat > package.json <<'JSON'
+          {
+            "name": "repro",
+            "private": true,
+            "devDependencies": { "rolldown": "1.2.7" },
+            "devEngines": { "runtime": { "name": "node", "version": "^22.0.0", "onFail": "download" } }
+          }
+          JSON
+          pnpm install
+          echo "--- lockfile runtime section:"
+          grep -A2 "runtime:" pnpm-lock.yaml | head -8
+          rm -rf node_modules
+          pnpm install --frozen-lockfile --no-runtime
+          echo "--- installed bindings:"
+          ls node_modules/.pnpm | grep -i binding || echo "(none)"
+          node -e "require('rolldown'); console.log('rolldown loads OK')"
