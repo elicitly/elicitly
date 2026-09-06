@@ -4,9 +4,9 @@ import { buildServer } from "./server.js"
 
 describe("buildServer", () => {
   it("assembles an McpServer with the elicitation tools registered", () => {
-    const { server, captureSession } = buildServer("0.0.0-test")
+    const { server, instrumentTransport } = buildServer("0.0.0-test")
     expect(server).toBeInstanceOf(McpServer)
-    expect(typeof captureSession).toBe("function")
+    expect(typeof instrumentTransport).toBe("function")
     const registered = Object.keys(
       (server as unknown as { _registeredTools: Record<string, unknown> })._registeredTools,
     )
