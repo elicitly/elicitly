@@ -45,6 +45,43 @@ describe("makeAdapter protocol version capture", () => {
 })
 
 describe("tools/list JSON Schema dialect rewrite", () => {
+  it("leaves non-draft-07 declarations and absent schemas untouched", async () => {
+    // The pass-through contract: when the SDK starts emitting 2020-12 itself
+    // (or a tool has no outputSchema), the wrapper must not touch anything —
+    // it only ever corrects an explicit draft-07 declaration.
+    const server = new McpServer({ name: "t", version: "0" })
+    const { instrumentTransport } = makeAdapter(server)
+    const sent: JSONRPCMessage[] = []
+    const transport = fakeTransport(sent)
+    instrumentTransport(transport)
+
+    await transport.send({
+      jsonrpc: "2.0",
+      id: 7,
+      result: {
+        tools: [
+          {
+            name: "modern",
+            inputSchema: {
+              $schema: "https://json-schema.org/draft/2020-12/schema",
+              type: "object",
+            },
+            outputSchema: { type: "object" },
+          },
+          { name: "bare", inputSchema: { type: "object" } },
+        ],
+      },
+    } as unknown as JSONRPCMessage)
+
+    const tools = (
+      sent[0] as unknown as { result: { tools: Array<Record<string, { $schema?: string }>> } }
+    ).result.tools
+    expect(tools[0]?.inputSchema?.$schema).toBe("https://json-schema.org/draft/2020-12/schema")
+    expect(tools[0]?.outputSchema?.$schema).toBeUndefined()
+    expect(tools[1]?.inputSchema?.$schema).toBeUndefined()
+    expect(tools[1]?.outputSchema).toBeUndefined()
+  })
+
   it("serves 2020-12 (never draft-07) and no draft-specific keywords", async () => {
     // Exercise the real pipeline: registered zod schemas → SDK conversion →
     // instrumented transport. SDK 1.30.0 hardcodes draft-07 as its zod-v4
