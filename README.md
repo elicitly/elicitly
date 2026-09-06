@@ -26,6 +26,11 @@ Register it in your MCP host (Claude Code shown; any stdio host works):
 
     claude mcp add elicitly -- npx -y elicitly
 
+Or skip the command line: in Claude Desktop, download `elicitly.mcpb` from
+the [latest release](https://github.com/elicitly/elicitly/releases/latest)
+and open it — a one-click, self-contained
+[desktop extension](./packages/elicitly/README.md#claude-desktop-one-click).
+
 Then ask your agent to call `elicit_confirm` ("Ship it?"), `elicit_form`
 (your own JSON schema), or `elicit_doctor` (does this host actually support
 elicitation?).
