@@ -17,16 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # Must precede setup-node so pnpm exists for its cache step. Version is
-      # read from the root package.json "packageManager" field.
-      - uses: pnpm/action-setup@v6
-
-      - uses: actions/setup-node@v7
+      # One step for the whole toolchain: installs pnpm (version from the root
+      # package.json "packageManager" field), Node 22, restores the store
+      # cache, and runs the install with --frozen-lockfile (require-lockfile).
+      # Pinned to v2.1.0: the floating v2 tag is stale at v2.0.2, which lacks
+      # the require-lockfile input (pnpm/setup#48). Move back to @v2 when the
+      # tag advances.
+      - uses: pnpm/setup@v2.1.0
         with:
-          node-version: 22
-          cache: pnpm
-
-      - run: pnpm install --frozen-lockfile
+          runtime: node@22
+          cache: true
+          require-lockfile: true
 
       # Separate steps so a failing check is obvious in the GitHub UI.
       - run: pnpm build
