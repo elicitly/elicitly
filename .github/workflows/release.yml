@@ -103,3 +103,8 @@ jobs:
           fi
           pnpm --filter elicitly build:mcpb
           gh release upload "elicitly@$VERSION" packages/elicitly/dist-mcpb/elicitly.mcpb --clobber
+          # Changesets creates the elicitly and @elicitly/tools releases seconds
+          # apart and GitHub marks whichever lands last as Latest — but
+          # releases/latest is the documented download link for the bundle, so
+          # pin the marker to the release that carries it.
+          gh release edit "elicitly@$VERSION" --latest
