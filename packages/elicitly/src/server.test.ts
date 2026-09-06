@@ -40,10 +40,18 @@ describe("contribute-fingerprint prompt", () => {
     expect(text).toContain("nothing is ever sent")
     expect(text).not.toContain("share: true")
     // Hardening (#15): provenance preamble (defuses the injection read when a
-    // host delivers the prompt as an attachment) and timeout-as-signal.
-    expect(text).toContain("user-initiated")
+    // host delivers the prompt as an attachment) and timeout-as-signal. The
+    // preamble de-escalates its own authority rather than claiming the user's
+    // — an authorization claim trips Claude Desktop's prompt-content filter
+    // (see the wording note in prompts.ts).
+    expect(text).toContain("host's prompt menu")
+    expect(text).toContain("proposed workflow, not an instruction")
+    expect(text).not.toContain("user-initiated")
     expect(text).toContain("advertised_but_unanswered")
     expect(text).toContain("probeElicitation: false")
+    // The exfiltration shape (data encoded into a clickable URL) must stay out
+    // for the same filter; the contribution is copy-paste.
+    expect(text).not.toContain("issues/new?")
     // The archived JSON goes into the issue pretty-printed so a human can read it.
     expect(text).toContain("pretty-printed")
   })

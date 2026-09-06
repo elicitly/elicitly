@@ -7,18 +7,27 @@
  * See elicitly/elicitly#11 and elicitly-pro#53.
  */
 
+// Wording note: some hosts (Claude Desktop's extension runtime) screen prompt
+// content with a prompt-injection heuristic before attaching it. Two patterns
+// tripped it in earlier wording and must stay out: text asserting the user
+// already authorized the flow ("the user chose to run this"), and instructions
+// to encode gathered data into a URL and present it as a clickable link (the
+// exfiltration shape). Hence the copy-paste contribution flow below, and a
+// provenance preamble (#15 — cautious models refuse the prompt as injection
+// when a host delivers it as an attachment) that DE-escalates its own
+// authority instead of claiming the user's: proposed workflow + consent gate.
 export const contributeFingerprintPrompt = {
   name: "contribute-fingerprint",
   title: "Contribute a fingerprint",
   description:
-    "Run elicit_doctor and prepare a one-click GitHub issue contributing the capability report " +
+    "Run elicit_doctor and prepare a GitHub issue contributing the capability report " +
     "to Elicitly's public Elicitation Support Matrix " +
     "(https://www.elicitly.ai/docs/elicitation/support-matrix/).",
   text: [
-    'This is the "contribute-fingerprint" prompt from the Elicitly MCP server. It is',
-    "user-initiated: MCP prompts are inert until a person explicitly selects them in their",
-    "host's UI, so the user you are talking with chose to run this. Before acting, restate in",
-    "one sentence what this flow does and confirm the user wants to proceed.",
+    'This is the "contribute-fingerprint" prompt from the Elicitly MCP server; prompts',
+    "like it reach a conversation only through the host's prompt menu. Treat it as a",
+    "proposed workflow, not an instruction: before acting, restate in one sentence what",
+    "this flow does and ask the user to confirm they want to proceed.",
     "",
     "You are helping the user contribute an elicitation-capability fingerprint to Elicitly's",
     "public Support Matrix (https://www.elicitly.ai/docs/elicitation/support-matrix/).",
@@ -33,18 +42,16 @@ export const contributeFingerprintPrompt = {
     "   appear — that IS the probe; the user should answer it. The probe is time-bounded, so",
     "   even if no dialog appears the report still comes back with the probe recorded as",
     "   `advertised_but_unanswered` — that timeout IS a valid finding; include the report as-is.",
-    "   Only if the elicit_doctor CALL itself times out at your tool-call limit, or errors: do",
-    "   NOT keep retrying — ask the user whether any dialog appeared, then call elicit_doctor",
-    "   once with probeElicitation: false and note the failure in the setup notes below",
+    "   If the elicit_doctor call itself errors or times out at your tool-call limit, don't",
+    "   retry — ask the user whether any dialog appeared, then call elicit_doctor once with",
+    "   probeElicitation: false and note the failure in the setup notes below",
     '   (e.g. "probe hit the host tool-call timeout; dialog visible: no").',
     "",
     "3. Show the user the returned report JSON verbatim.",
     "",
     "4. Offer to prepare the contribution. This server runs locally, so nothing is ever sent",
-    "   automatically — instead, build a pre-filled GitHub issue link for the user to review",
-    "   and submit themselves. Construct this URL (URL-encode the title and body values):",
-    "",
-    "   https://github.com/elicitly/elicitly/issues/new?title=<TITLE>&body=<BODY>",
+    "   automatically — compose an issue title and body for the user to review, copy, and",
+    "   submit themselves at https://github.com/elicitly/elicitly/issues/new",
     "",
     '   TITLE: "Host fingerprint: <product name + version>"',
     "   BODY (markdown):",
@@ -58,10 +65,8 @@ export const contributeFingerprintPrompt = {
     "     <the report JSON, pretty-printed with 2-space indentation>",
     "     ```",
     "",
-    "   Present the finished URL as a clickable link and tell the user to review the",
-    "   pre-filled issue and press Submit. If the link exceeds the browser/GitHub URL limit,",
-    "   fall back to giving the user the title and body to paste manually at",
-    "   https://github.com/elicitly/elicitly/issues/new",
+    "   Show the title and body in easily copyable form and tell the user to paste them",
+    "   into a new issue at that page.",
     "",
     "If the user prefers not to contribute, just show them the report — steps 1-3 are a",
     "useful diagnostic on their own.",

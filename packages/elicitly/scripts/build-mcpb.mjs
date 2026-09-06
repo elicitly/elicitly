@@ -9,7 +9,7 @@
  * drift from package.json — the same discipline server.json gets from the
  * release workflow.
  */
-import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import { copyFileSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -18,7 +18,14 @@ const repoRoot = join(pkgRoot, "..", "..")
 const staging = join(pkgRoot, "dist-mcpb", "bundle")
 
 const pkg = JSON.parse(readFileSync(join(pkgRoot, "package.json"), "utf8"))
-// tools/prompts below are directory-listing metadata (short, human-facing) —
+// The prompt's manifest entry must be the EXACT content prompts/get serves —
+// Claude Desktop validates the served text against the declaration and rejects
+// the prompt as "potential prompt injection" on any mismatch. Import it from
+// the built copy of the same module the server registers from.
+const { contributeFingerprintPrompt } = await import(
+  new URL("../dist-mcpb/prompts.mjs", import.meta.url).href
+)
+// tool entries below are directory-listing metadata (short, human-facing) —
 // the wire contract stays in @elicitly/tools; keep names in sync with it.
 const manifest = {
   manifest_version: "0.3",
@@ -67,10 +74,9 @@ const manifest = {
   ],
   prompts: [
     {
-      name: "contribute-fingerprint",
-      description:
-        "Run elicit_doctor and prepare a one-click GitHub issue contributing the capability report to Elicitly's public Elicitation Support Matrix.",
-      text: "Guides the user through elicit_doctor (with a live probe) and builds a pre-filled GitHub issue for them to review and submit — nothing is sent automatically.",
+      name: contributeFingerprintPrompt.name,
+      description: contributeFingerprintPrompt.description,
+      text: contributeFingerprintPrompt.text,
     },
   ],
   keywords: ["mcp", "elicitation", "human-in-the-loop", "approvals", "agent-skills"],
@@ -86,7 +92,13 @@ const manifest = {
 rmSync(staging, { recursive: true, force: true })
 mkdirSync(join(staging, "server"), { recursive: true })
 
-copyFileSync(join(pkgRoot, "dist-mcpb", "cli.mjs"), join(staging, "server", "cli.mjs"))
+// Copy every emitted module: the two-entry build (cli + prompts) code-splits
+// their shared modules into chunk files that cli.mjs imports at runtime.
+for (const f of readdirSync(join(pkgRoot, "dist-mcpb"))) {
+  if (f.endsWith(".mjs")) {
+    copyFileSync(join(pkgRoot, "dist-mcpb", f), join(staging, "server", f))
+  }
+}
 copyFileSync(join(pkgRoot, "mcpb", "icon.png"), join(staging, "icon.png"))
 copyFileSync(join(repoRoot, "LICENSE"), join(staging, "LICENSE"))
 copyFileSync(join(pkgRoot, "NOTICE"), join(staging, "NOTICE"))
