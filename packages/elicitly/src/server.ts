@@ -5,10 +5,10 @@ import { contributeFingerprintMessages, contributeFingerprintPrompt } from "./pr
 
 export function buildServer(version: string): {
   server: McpServer
-  captureSession: ReturnType<typeof makeAdapter>["captureSession"]
+  instrumentTransport: ReturnType<typeof makeAdapter>["instrumentTransport"]
 } {
   const server = new McpServer({ name: "elicitly", version })
-  const { elicit, clientView, captureSession } = makeAdapter(server)
+  const { elicit, clientView, instrumentTransport } = makeAdapter(server)
   registerFormTools(server, { elicit, clientView, serverInfo: { name: "elicitly", version } })
   server.registerPrompt(
     contributeFingerprintPrompt.name,
@@ -18,5 +18,5 @@ export function buildServer(version: string): {
     },
     () => contributeFingerprintMessages(),
   )
-  return { server, captureSession }
+  return { server, instrumentTransport }
 }

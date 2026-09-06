@@ -6,7 +6,7 @@ import { buildServer } from "./server.js"
 const require = createRequire(import.meta.url)
 const { version } = require("../package.json") as { version: string }
 
-const { server, captureSession } = buildServer(version)
+const { server, instrumentTransport } = buildServer(version)
 const transport = new StdioServerTransport()
-captureSession(transport)
+instrumentTransport(transport)
 await server.connect(transport)

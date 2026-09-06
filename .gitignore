@@ -4,3 +4,4 @@ dist-mcpb/
 .turbo/
 coverage/
 *.log
+.DS_Store
