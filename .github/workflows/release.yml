@@ -85,3 +85,21 @@ jobs:
           git commit -m "chore: server.json $VERSION (MCP Registry sync) [skip ci]"
           git pull --rebase origin main
           git push
+
+      # Desktop-extension bundle: attach elicitly.mcpb to the elicitly@X.Y.Z
+      # GitHub Release that changesets/action just created. Guarded by release
+      # existence rather than the publish flag so tools-only releases (no
+      # elicitly tag this run) skip naturally; --clobber makes re-runs
+      # (workflow_dispatch) idempotent against the current release.
+      - name: Attach MCPB bundle to release
+        if: steps.changesets.outputs.published == 'true' || github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=$(jq -r .version packages/elicitly/package.json)
+          if ! gh release view "elicitly@$VERSION" >/dev/null 2>&1; then
+            echo "no elicitly@$VERSION release; skipping MCPB attach"
+            exit 0
+          fi
+          pnpm --filter elicitly build:mcpb
+          gh release upload "elicitly@$VERSION" packages/elicitly/dist-mcpb/elicitly.mcpb --clobber
