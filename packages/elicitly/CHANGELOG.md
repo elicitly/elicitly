@@ -1,5 +1,16 @@
 # elicitly
 
+## 0.7.0
+
+### Minor Changes
+
+- cb0cbfa: Desktop-extension (MCPB) bundle: `pnpm --filter elicitly build:mcpb` stages and packs a fully self-contained `elicitly.mcpb` (manifest 0.3, all deps inlined, no node_modules), and the release workflow attaches it to each `elicitly@X.Y.Z` GitHub Release. Installable in Claude Desktop with one click; also unlocks Smithery's local-server (MCPB) listing path.
+
+### Patch Changes
+
+- 282af33: Reword the contribute-fingerprint prompt to pass Claude Desktop's extension prompt-content filter, which rejected it as potential prompt injection. The provenance preamble now de-escalates the prompt's own authority instead of claiming the user's authorization, and the pre-filled GitHub-issue URL becomes a copy-paste flow (compose title and body; the user pastes them at issues/new).
+- 282af33: Serve tool schemas as JSON Schema 2020-12 (the MCP spec dialect). SDK 1.30.0 hardcodes draft-07 as its zod-v4 conversion target, which strict clients — Claude Desktop's local-extension validator among them — reject with "unsupported dialect", breaking every tool call from the MCPB install. The transport wrapper now corrects the declared dialect on tools/list; a test asserts the served schemas use no keywords whose meaning differs between the dialects.
+
 ## 0.6.0
 
 ### Minor Changes
