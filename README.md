@@ -6,7 +6,7 @@
 [![Coverage](https://codecov.io/gh/elicitly/elicitly/graph/badge.svg)](https://codecov.io/gh/elicitly/elicitly)
 [![Docs](https://img.shields.io/badge/docs-elicitly.ai-blue)](https://www.elicitly.ai/docs/)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-green)](./LICENSE)
-[![Glama quality score](https://img.shields.io/endpoint?url=https%3A%2F%2Fglama.ai%2Fmcp%2Fservers%2Felicitly%2Felicitly%2Fbadges%2Fshields.json)](https://glama.ai/mcp/servers/elicitly/elicitly)
+[![elicitly MCP server — quality and maintenance score on Glama](https://glama.ai/mcp/servers/elicitly/elicitly/badges/score.svg)](https://glama.ai/mcp/servers/elicitly/elicitly)
 
 **Your AI has questions. Your users have answers.** Elicitly connects them —
 human-in-the-loop for prompts and [Agent Skills](https://agentskills.io/) over
