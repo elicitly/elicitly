@@ -86,7 +86,7 @@ export function registerFormTools(
     {
       title: "Diagnose the host's elicitation support",
       description:
-        "Report the connected host's elicitation/sampling/roots support. initialize.request/response echo the handshake verbatim; support holds Elicitly's derived booleans; deprecations flags client features (sampling, roots, logging) moved to Deprecated in the MCP 2026-07-28 spec (SEP-2577); probeElicitation adds a live form-elicitation round-trip under probes.elicitationForm. Client-features background: https://modelcontextprotocol.io/docs/learn/client-concepts",
+        "Check whether the connected MCP host actually supports elicitation (and sampling/roots) before relying on it — advertising a capability is not the same as it working. Use it to decide whether to call elicit_form/elicit_confirm, to explain why a prompt did or didn't appear, or to contribute a host capability fingerprint. Returns a passive report derived from the initialize handshake; set probeElicitation: true to also run one live form round-trip (the user may see a dialog) and classify what really happened. Read-only; safe to call anytime.",
       inputSchema: {
         probeElicitation: z
           .boolean()
