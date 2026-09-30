@@ -23,7 +23,7 @@ jobs:
       # Pinned to v2.1.0: the floating v2 tag is stale at v2.0.2, which lacks
       # the require-lockfile input (pnpm/setup#48). Move back to @v2 when the
       # tag advances.
-      - uses: pnpm/setup@v2.1.0
+      - uses: pnpm/setup@v3.0.0
         with:
           runtime: node@22
           cache: true
