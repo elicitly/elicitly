@@ -31,11 +31,11 @@ jobs:
       - uses: actions/checkout@v7
 
       # One step for the whole toolchain: installs pnpm (version from the root
-      # package.json "packageManager" field), Node 22, restores the store
-      # cache, and runs the install with --frozen-lockfile (require-lockfile).
+      # package.json "packageManager" field), Node (from "devEngines.runtime"),
+      # restores the store cache, and runs the install with --frozen-lockfile
+      # (require-lockfile).
       - uses: pnpm/setup@v3
         with:
-          runtime: node@22
           cache: true
           require-lockfile: true
 

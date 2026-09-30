@@ -23,5 +23,12 @@
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
-  "packageManager": "pnpm@12.6.0"
+  "packageManager": "pnpm@12.8.1",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^22.0.0",
+      "onFail": "download"
+    }
+  }
 }
