@@ -20,10 +20,7 @@ jobs:
       # One step for the whole toolchain: installs pnpm (version from the root
       # package.json "packageManager" field), Node 22, restores the store
       # cache, and runs the install with --frozen-lockfile (require-lockfile).
-      # Pinned to v2.1.0: the floating v2 tag is stale at v2.0.2, which lacks
-      # the require-lockfile input (pnpm/setup#48). Move back to @v2 when the
-      # tag advances.
-      - uses: pnpm/setup@v3.0.0
+      - uses: pnpm/setup@v3
         with:
           runtime: node@22
           cache: true
