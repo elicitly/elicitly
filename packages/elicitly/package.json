@@ -46,7 +46,7 @@
   "devDependencies": {
     "@anthropic-ai/mcpb": "^2.1.2",
     "@elicitly/tools": "workspace:*",
-    "@types/node": "^26.6.3",
+    "@types/node": "^26.6.4",
     "@vitest/coverage-v8": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",
