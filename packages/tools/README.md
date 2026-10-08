@@ -1,7 +1,7 @@
 # @elicitly/tools
 
 Embeddable **MCP elicitation toolkit**: put the Elicitly tools —
-`elicit_confirm`, `elicit_form`, `elicit_doctor` — on your **own** `McpServer`,
+`elicit_confirm`, `elicit_form`, `elicit_doctor`, `elicit_display` — on your **own** `McpServer`,
 with the elicitation-schema types and the capability report/probe layer they
 build on.
 
@@ -28,6 +28,10 @@ rendered by the connected host, results returned as typed JSON.
 
 - `registerFormTools(server, deps)` — registers `elicit_confirm`,
   `elicit_doctor`, `elicit_form` (alphabetical wire order).
+- `registerDisplayTool(server, { version, extraResourceDomains })` — registers
+  `elicit_display` and its MCP Apps view (`ui://elicitly/display`): a LiquidJS
+  template rendered server-side, delivered to the view via the result's
+  `_meta` (never the model's context).
 - `makeElicitAdapter(server, opts)` — bridges an `McpServer` to the injected
   `elicit` function the tools use (SDK-coupled edge, kept in one place).
 - `confirm` / `elicitForm` / `doctor` — the tool handlers themselves,

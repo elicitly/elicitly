@@ -54,12 +54,33 @@ const manifest = {
       command: "node",
       // biome-ignore lint/suspicious/noTemplateCurlyInString: MCPB substitution syntax, not a JS template
       args: ["${__dirname}/server/cli.mjs"],
+      env: {
+        // biome-ignore lint/suspicious/noTemplateCurlyInString: MCPB substitution syntax, not a JS template
+        ELICITLY_DISPLAY_RESOURCE_DOMAINS: "${user_config.display_resource_domains}",
+      },
+    },
+  },
+  user_config: {
+    display_resource_domains: {
+      type: "string",
+      title: "elicit_display: extra allowed origins",
+      description:
+        "Comma-separated https:// origins that elicit_display templates may load images, scripts, styles, and fonts from (e.g. https://upload.wikimedia.org). jsDelivr is always allowed. Leave empty to allow only jsDelivr.",
+      required: false,
+      // An unset optional value with no default is passed through as the
+      // literal placeholder; an empty default substitutes "" instead.
+      default: "",
     },
   },
   tools: [
     {
       name: "elicit_confirm",
       description: "Ask the user an OK/Cancel confirmation (modeled on JavaScript's confirm()).",
+    },
+    {
+      name: "elicit_display",
+      description:
+        "Show the user a LiquidJS template rendered as HTML, inline in hosts that support MCP Apps.",
     },
     {
       name: "elicit_doctor",

@@ -17,6 +17,13 @@ prompt or Agent Skill — and its cross-host support visible.
   `probeElicitation: true` runs one live elicitation round-trip and classifies
   the result (`working`, `advertised_but_autocanceled`, `user_declined`,
   `advertised_but_unanswered`, `unsupported`).
+- **elicit_display** — show the user rendered HTML instead of Markdown: pass a
+  [LiquidJS](https://liquidjs.com/) template plus JSON `context`, and hosts that
+  support [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview)
+  render it inline. Templates may load Tailwind/DaisyUI from jsDelivr; allow
+  more image/script/style origins with `ELICITLY_DISPLAY_RESOURCE_DOMAINS`
+  (comma-separated `https://` origins) — in the Claude Desktop extension, that's
+  the **elicit_display: extra allowed origins** setting.
 
 ## Run it
 

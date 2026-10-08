@@ -33,8 +33,9 @@ and open it — a one-click, self-contained
 [desktop extension](./packages/elicitly/README.md#claude-desktop-one-click).
 
 Then ask your agent to call `elicit_confirm` ("Ship it?"), `elicit_form`
-(your own JSON schema), or `elicit_doctor` (does this host actually support
-elicitation?).
+(your own JSON schema), `elicit_doctor` (does this host actually support
+elicitation?), or `elicit_display` (show a LiquidJS template rendered inline as an
+MCP App).
 
 ## Packages
 

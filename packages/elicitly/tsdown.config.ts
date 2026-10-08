@@ -6,8 +6,9 @@ export default defineConfig([
     entry: ["src/cli.ts"],
     format: ["esm"],
     target: "node22",
-    // Bundle the private workspace lib into the published CLI:
-    deps: { alwaysBundle: ["@elicitly/tools"] },
+    // Bundle the private workspace lib into the published CLI, together with its
+    // runtime deps that the CLI manifest doesn't declare (liquidjs):
+    deps: { alwaysBundle: ["@elicitly/tools", "liquidjs"] },
     clean: true,
   },
   // MCPB artifact: fully self-contained — the desktop-extension bundle ships no

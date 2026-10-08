@@ -5,6 +5,7 @@ export * from "./confirm.js"
 // layer rule survives the merge: nothing under core/ may import the MCP SDK,
 // zod, or anything outside core/.
 export * from "./core/index.js"
+export * from "./display/index.js"
 export * from "./doctor.js"
 export * from "./elicitForm.js"
 export * from "./register.js"
