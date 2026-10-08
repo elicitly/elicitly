@@ -57,6 +57,14 @@ describe("registerFormTools", () => {
     }
   })
 
+  it("output schemas accept additional properties at every level", async () => {
+    const client = await connect(async () => ({ action: "cancel", content: null }))
+    for (const tool of (await client.listTools()).tools) {
+      expect(tool.outputSchema, tool.name).toBeDefined()
+      expect(strictPaths(tool.outputSchema), tool.name).toEqual([])
+    }
+  })
+
   it("results carry structuredContent that passes the declared outputSchema", async () => {
     const client = await connect(async () => ({ action: "accept", content: { value: "ok" } }))
     await client.listTools() // caches outputSchemas → the client validates structuredContent below
@@ -179,3 +187,17 @@ describe("registerFormTools", () => {
     expect(seen).toBe(300)
   })
 })
+
+/** Paths of every object schema that forbids extra properties. */
+function strictPaths(schema: unknown, path = "#"): string[] {
+  if (!schema || typeof schema !== "object") return []
+  const node = schema as Record<string, unknown>
+  const own = node.additionalProperties === false ? [path] : []
+  return own.concat(
+    Object.entries(node).flatMap(([k, v]) =>
+      Array.isArray(v)
+        ? v.flatMap((item, i) => strictPaths(item, `${path}/${k}/${i}`))
+        : strictPaths(v, `${path}/${k}`),
+    ),
+  )
+}
