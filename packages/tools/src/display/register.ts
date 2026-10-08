@@ -1,5 +1,6 @@
 import { type McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { z } from "zod"
+import { findBlockedOrigins } from "./origins.js"
 import { MAX_TEMPLATE_CHARS, renderTemplate } from "./render.js"
 import {
   buildViewHtml,
@@ -110,11 +111,22 @@ export function registerDisplayTool(server: McpServer, opts: DisplayToolOptions)
       if (!rendered.ok) return errorResult(`template failed to render: ${rendered.error}`)
 
       const label = summary ?? (title ? `Displayed "${title}".` : "Displayed the rendered content.")
-      const supported = hostSupportsApps(server)
-      const text =
-        supported === false
-          ? `${label} However, this host did not advertise MCP Apps support, so the user may not see the render — present the key information in your reply as well.`
-          : label
+      const notes: string[] = []
+      if (hostSupportsApps(server) === false) {
+        notes.push(
+          "However, this host did not advertise MCP Apps support, so the user may not see the render — present the key information in your reply as well.",
+        )
+      }
+      const blocked = findBlockedOrigins(rendered.html, csp.resourceDomains)
+      if (blocked.length > 0) {
+        const list = blocked
+          .map((b) => `${b.origin} (${b.references} reference${b.references === 1 ? "" : "s"})`)
+          .join(", ")
+        notes.push(
+          `The view blocks content from ${list}, so it won't load. Allowed origins: ${csp.resourceDomains.join(", ")}. Use an allowed origin, leave it out, or tell the user which origin to allow.`,
+        )
+      }
+      const text = [label, ...notes].join(" ")
       return {
         content: [{ type: "text", text }],
         _meta: {

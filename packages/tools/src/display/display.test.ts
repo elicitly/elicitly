@@ -184,6 +184,28 @@ describe("registerDisplayTool", () => {
     expect(r.text).toBe("Displayed the rendered content.")
   })
 
+  it("names blocked origins and the allowlist in the result text", async () => {
+    const client = await connect({ apps: true })
+    const r = await display(client, {
+      template: '<img src="{{ context.src }}"><img src="{{ context.src }}?2">',
+      context: { src: "https://upload.wikimedia.org/jupiter.png" },
+      summary: "Jupiter.",
+    })
+    expect(r.text).toBe(
+      "Jupiter. The view blocks content from https://upload.wikimedia.org (2 references), so it won't load. Allowed origins: https://cdn.jsdelivr.net. Use an allowed origin, leave it out, or tell the user which origin to allow.",
+    )
+    expect(r.rendered).toBeDefined()
+  })
+
+  it("adds nothing when every external reference is allowed", async () => {
+    const client = await connect({ apps: true, extra: ["https://upload.wikimedia.org"] })
+    const r = await display(client, {
+      template: '<img src="https://upload.wikimedia.org/jupiter.png">',
+      summary: "Jupiter.",
+    })
+    expect(r.text).toBe("Jupiter.")
+  })
+
   it("returns a tool error the model can fix when the template fails", async () => {
     const client = await connect({ apps: true })
     const r = await display(client, { template: "{% badtag %}" })
