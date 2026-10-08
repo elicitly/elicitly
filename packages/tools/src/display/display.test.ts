@@ -45,6 +45,12 @@ describe("renderTemplate", () => {
     expect(r).toEqual({ ok: true, html: "<b>&lt;script&gt;x&lt;/script&gt;</b>" })
   })
 
+  it("passes a data: URI from context through escaping intact", async () => {
+    const src = "data:image/png;base64,iVBORw0KGgo+/A=="
+    const r = await renderTemplate('<img src="{{ context.src }}">', { src })
+    expect(r).toEqual({ ok: true, html: `<img src="${src}">` })
+  })
+
   it("uses JavaScript-style truthiness (0 and empty string are falsy)", async () => {
     const r = await renderTemplate("{% if context.n %}yes{% else %}no{% endif %}", { n: 0 })
     expect(r).toEqual({ ok: true, html: "no" })
