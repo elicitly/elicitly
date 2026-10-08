@@ -74,9 +74,20 @@ jobs:
           curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
           SEED=$(printf '%s\n' "$MCP_REGISTRY_PRIVATE_KEY" | openssl pkey -text -noout | awk '/priv:/{f=1;next} /pub:/{f=0} f' | tr -d ' :\n')
           ./mcp-publisher login dns --domain elicitly.ai --private-key "$SEED"
-          # One retry: the npm artifact published seconds ago and the registry
-          # validates mcpName against it; give propagation a moment if needed.
-          ./mcp-publisher publish || { sleep 30 && ./mcp-publisher publish; }
+          # The registry validates mcpName against the npm artifact published
+          # seconds ago, and npm's per-version document and package listing
+          # can lag by minutes. Wait (up to 10 min) until both show this
+          # version, then publish with one retry for registry-side caching.
+          for i in $(seq 1 40); do
+            if curl -fsS -o /dev/null "https://registry.npmjs.org/elicitly/$VERSION" &&
+               curl -fsS "https://registry.npmjs.org/elicitly" | jq -e --arg v "$VERSION" '.versions[$v]' >/dev/null; then
+              echo "npm lists elicitly@$VERSION"
+              break
+            fi
+            [ "$i" = 40 ] && { echo "npm never listed elicitly@$VERSION"; exit 1; }
+            sleep 15
+          done
+          ./mcp-publisher publish || { sleep 60 && ./mcp-publisher publish; }
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add server.json
