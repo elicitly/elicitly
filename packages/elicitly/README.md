@@ -22,7 +22,8 @@ prompt or Agent Skill — and its cross-host support visible.
   support [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview)
   render it inline. Templates may load Tailwind/DaisyUI from jsDelivr; allow
   more image/script/style origins with `ELICITLY_DISPLAY_RESOURCE_DOMAINS`
-  (comma-separated `https://` origins).
+  (comma-separated `https://` origins) — in the Claude Desktop extension, that's
+  the **elicit_display: extra allowed origins** setting.
 
 ## Run it
 
