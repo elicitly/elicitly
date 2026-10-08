@@ -1,9 +1,9 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js"
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import { MAX_CONTEXT_BYTES, MCP_APPS_EXTENSION, registerDisplayTool } from "./register.js"
-import { renderTemplate } from "./render.js"
+import { MAX_TEMPLATE_CHARS, renderTemplate } from "./render.js"
 import {
   buildFrameDocument,
   DISPLAY_META_KEY,
@@ -14,9 +14,11 @@ import {
 
 type Rendered = { title: string | null; html: string }
 
-async function connect(opts: { apps?: boolean; extra?: string[] } = {}) {
+async function connect(opts: { apps?: boolean; extra?: string[]; unknownCaps?: boolean } = {}) {
   const server = new McpServer({ name: "t", version: "9.9.9" })
   registerDisplayTool(server, { version: "9.9.9", extraResourceDomains: opts.extra })
+  // A transport that never captured the client's initialize (e.g. a stateless lane).
+  if (opts.unknownCaps) vi.spyOn(server.server, "getClientCapabilities").mockReturnValue(undefined)
   const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair()
   const client = new Client(
     { name: "c", version: "0" },
@@ -46,6 +48,11 @@ describe("renderTemplate", () => {
   it("uses JavaScript-style truthiness (0 and empty string are falsy)", async () => {
     const r = await renderTemplate("{% if context.n %}yes{% else %}no{% endif %}", { n: 0 })
     expect(r).toEqual({ ok: true, html: "no" })
+  })
+
+  it("refuses a template over the size cap without parsing it", async () => {
+    const r = await renderTemplate("x".repeat(MAX_TEMPLATE_CHARS + 1), {})
+    expect(r).toEqual({ ok: false, error: `template exceeds ${MAX_TEMPLATE_CHARS} characters` })
   })
 
   it("reports parse errors as a message instead of throwing", async () => {
@@ -128,6 +135,12 @@ describe("registerDisplayTool", () => {
     const r = await display(client, { template: "x" })
     expect(r.text).toContain("did not advertise MCP Apps support")
     expect(r.rendered).toBeDefined()
+  })
+
+  it("doesn't warn when the host's capabilities are unknown", async () => {
+    const client = await connect({ unknownCaps: true })
+    const r = await display(client, { template: "x" })
+    expect(r.text).toBe("Displayed the rendered content.")
   })
 
   it("returns a tool error the model can fix when the template fails", async () => {
