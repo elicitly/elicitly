@@ -1,6 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { describe, expect, it } from "vitest"
-import { buildServer } from "./server.js"
+import { buildServer, displayResourceDomains } from "./server.js"
 
 describe("buildServer", () => {
   it("assembles an McpServer with the elicitation tools registered", () => {
@@ -11,8 +11,22 @@ describe("buildServer", () => {
       (server as unknown as { _registeredTools: Record<string, unknown> })._registeredTools,
     )
     expect(registered).toEqual(
-      expect.arrayContaining(["elicit_confirm", "elicit_form", "elicit_doctor"]),
+      expect.arrayContaining(["elicit_confirm", "elicit_display", "elicit_form", "elicit_doctor"]),
     )
+  })
+})
+
+describe("displayResourceDomains", () => {
+  it("keeps trimmed https origins and drops everything else", () => {
+    expect(
+      displayResourceDomains(
+        " https://img.example.com ,http://plain.example.com,https://a.example.com/path,,https://*.cdn.example.com",
+      ),
+    ).toEqual(["https://img.example.com", "https://*.cdn.example.com"])
+  })
+
+  it("is empty when unset", () => {
+    expect(displayResourceDomains(undefined)).toEqual([])
   })
 })
 

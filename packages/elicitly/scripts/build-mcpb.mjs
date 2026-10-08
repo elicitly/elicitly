@@ -62,6 +62,11 @@ const manifest = {
       description: "Ask the user an OK/Cancel confirmation (modeled on JavaScript's confirm()).",
     },
     {
+      name: "elicit_display",
+      description:
+        "Show the user a LiquidJS template rendered as HTML, inline in hosts that support MCP Apps.",
+    },
+    {
       name: "elicit_doctor",
       description:
         "Report the host's support for elicitation (form/url mode), sampling, and roots; optionally run one live elicitation probe.",

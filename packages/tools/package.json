@@ -1,7 +1,7 @@
 {
   "name": "@elicitly/tools",
   "version": "0.7.2",
-  "description": "Embeddable MCP elicitation toolkit \u2014 register elicit_confirm, elicit_form, and elicit_doctor on any McpServer, plus the elicitation-schema types and capability report/probe layer.",
+  "description": "Embeddable MCP elicitation toolkit — register elicit_confirm, elicit_form, elicit_doctor, and elicit_display on any McpServer, plus the elicitation-schema types and capability report/probe layer.",
   "keywords": [
     "mcp",
     "elicitation",
@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "catalog:",
+    "liquidjs": "^10.30.0",
     "zod": "catalog:"
   },
   "devDependencies": {
