@@ -1,6 +1,6 @@
 {
   "name": "@elicitly/tools",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Embeddable MCP elicitation toolkit — register elicit_confirm, elicit_form, elicit_doctor, and elicit_display on any McpServer, plus the elicitation-schema types and capability report/probe layer.",
   "keywords": [
     "mcp",
