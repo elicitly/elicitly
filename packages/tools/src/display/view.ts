@@ -48,10 +48,15 @@ function fnv1a(input: string): string {
   return (h >>> 0).toString(16).padStart(8, "0")
 }
 
-/** Runs inside the template frame: reports content height and routes link clicks
- * to the view (which asks the host to open them via ui/open-link). */
+/** Runs inside the template frame: reports content height, routes link clicks
+ * to the view (which asks the host to open them via ui/open-link), and applies
+ * theme changes the view relays from the host (the sandboxed frame has no
+ * other way to learn them; inline color-scheme outranks the layered default). */
 const FRAME_JS =
   "(function(){var p=function(m){parent.postMessage(m,'*')};" +
+  "addEventListener('message',function(e){var m=e.data;if(e.source!==parent||!m||m.elicitly!=='theme')return;" +
+  "if(m.theme!=='light'&&m.theme!=='dark')return;var r=document.documentElement;" +
+  "r.setAttribute('data-theme',m.theme);r.style.colorScheme=m.theme});" +
   "var s=function(){p({elicitly:'height',h:document.documentElement.scrollHeight})};" +
   "addEventListener('load',s);new ResizeObserver(s).observe(document.documentElement);" +
   "addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');" +
@@ -140,7 +145,12 @@ iframe{display:block;width:100%;height:0;border:0}
   function applyContext(c) {
     if (!c) return;
     for (var k in c) ctx[k] = c[k];
-    if (c.theme) document.documentElement.setAttribute("data-theme", c.theme);
+    if (c.theme) {
+      document.documentElement.setAttribute("data-theme", c.theme);
+      // A render that's already mounted keeps the theme it was built with
+      // unless the frame is told: hosts switch themes on open conversations.
+      if (mounted) sendTheme();
+    }
     var vars = c.styles && c.styles.variables;
     if (vars) for (var v in vars) document.documentElement.style.setProperty(v, vars[v]);
     var modes = ctx.availableDisplayModes || [];
@@ -148,6 +158,12 @@ iframe{display:block;width:100%;height:0;border:0}
     full.hidden = modes.indexOf("fullscreen") < 0;
     full.textContent = ctx.displayMode === "fullscreen" ? "Exit fullscreen" : "Fullscreen";
     if (!full.hidden) document.getElementById("bar").classList.add("on");
+  }
+
+  function sendTheme() {
+    if ((ctx.theme === "light" || ctx.theme === "dark") && frame.contentWindow) {
+      frame.contentWindow.postMessage({ elicitly: "theme", theme: ctx.theme }, "*");
+    }
   }
 
   function showNote(text) {
@@ -196,6 +212,9 @@ iframe{display:block;width:100%;height:0;border:0}
     if (e.source === frame.contentWindow) {
       if (!m || typeof m !== "object") return;
       if (m.elicitly === "height") {
+        // First report: the frame's script is listening now, so catch up on a
+        // theme change that landed while it was still loading.
+        if (!frameSeen) sendTheme();
         frameSeen = true;
         var h = Number(m.h);
         if (h > 0) frame.style.height = Math.min(h, 4000) + "px";
