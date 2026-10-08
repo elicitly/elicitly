@@ -104,6 +104,7 @@ describe("buildFrameDocument", () => {
     expect(doc).toContain("<p>hi</p>")
     expect(doc).toContain("elicitly:'height'")
     expect(doc).toContain("@layer elicitly-base{")
+    expect(doc).toContain("m.elicitly!=='theme'")
   })
 })
 
