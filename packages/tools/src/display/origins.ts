@@ -10,29 +10,29 @@
 /** Elements whose URL attributes the browser fetches as subresources (not <a> links). */
 const RESOURCE_TAG =
   /<(img|script|link|source|video|audio|track|iframe|embed|object|input)\b([^>]*)>/gi
-const URL_ATTR = /\b(src|href|srcset|poster|data)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi
+const URL_ATTR = /\b(src|href|srcset|poster|data)\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi
 const CSS_URL = /url\(\s*(['"]?)([^'")]+)\1\s*\)/gi
 
 export type BlockedOrigin = { origin: string; references: number }
 
 export function findBlockedOrigins(html: string, allowed: readonly string[]): BlockedOrigin[] {
   const counts = new Map<string, number>()
+  const count = (origin: string) => counts.set(origin, (counts.get(origin) ?? 0) + 1)
   const note = (raw: string) => {
     const origin = externalOrigin(raw)
-    if (origin && !isAllowed(origin, allowed)) counts.set(origin, (counts.get(origin) ?? 0) + 1)
+    if (origin && !isAllowed(origin, allowed)) count(origin)
   }
 
   for (const [, tag, attrs] of html.matchAll(RESOURCE_TAG)) {
-    for (const [, name, dq, sq, bare] of attrs.matchAll(URL_ATTR)) {
-      const value = dq ?? sq ?? bare ?? ""
-      // Nested frames are never allowed (frameDomains stays empty).
-      if (tag.toLowerCase() === "iframe" && name.toLowerCase() === "src") {
+    for (const [, name, quoted] of attrs.matchAll(URL_ATTR)) {
+      const value = quoted.replace(/^(["'])(.*)\1$/s, "$2")
+      const attr = name.toLowerCase()
+      if (tag.toLowerCase() === "iframe" && attr === "src") {
+        // Nested frames are never allowed (frameDomains stays empty).
         const origin = externalOrigin(value)
-        if (origin) counts.set(origin, (counts.get(origin) ?? 0) + 1)
-        continue
-      }
-      if (name.toLowerCase() === "srcset") {
-        for (const candidate of value.split(",")) note(candidate.trim().split(/\s+/)[0] ?? "")
+        if (origin) count(origin)
+      } else if (attr === "srcset") {
+        for (const candidate of value.split(",")) note(candidate.trim().replace(/\s.*$/s, ""))
       } else {
         note(value)
       }

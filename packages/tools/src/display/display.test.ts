@@ -1,6 +1,7 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js"
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
+import { Liquid } from "liquidjs"
 import { describe, expect, it, vi } from "vitest"
 import { MAX_CONTEXT_BYTES, MCP_APPS_EXTENSION, registerDisplayTool } from "./register.js"
 import { MAX_TEMPLATE_CHARS, renderTemplate } from "./render.js"
@@ -60,6 +61,12 @@ describe("renderTemplate", () => {
   it("refuses a template over the size cap without parsing it", async () => {
     const r = await renderTemplate("x".repeat(MAX_TEMPLATE_CHARS + 1), {})
     expect(r).toEqual({ ok: false, error: `template exceeds ${MAX_TEMPLATE_CHARS} characters` })
+  })
+
+  it("stringifies a non-Error throw", async () => {
+    const spy = vi.spyOn(Liquid.prototype, "parseAndRender").mockRejectedValueOnce("boom")
+    expect(await renderTemplate("x", {})).toEqual({ ok: false, error: "boom" })
+    spy.mockRestore()
   })
 
   it("reports parse errors as a message instead of throwing", async () => {
@@ -195,6 +202,12 @@ describe("registerDisplayTool", () => {
       "Jupiter. The view blocks content from https://upload.wikimedia.org (2 references), so it won't load. Allowed origins: https://cdn.jsdelivr.net. Use an allowed origin, leave it out, or tell the user which origin to allow.",
     )
     expect(r.rendered).toBeDefined()
+  })
+
+  it("uses the singular for a single blocked reference", async () => {
+    const client = await connect({ apps: true })
+    const r = await display(client, { template: '<img src="https://a.test/x.png">' })
+    expect(r.text).toContain("https://a.test (1 reference), so")
   })
 
   it("adds nothing when every external reference is allowed", async () => {
