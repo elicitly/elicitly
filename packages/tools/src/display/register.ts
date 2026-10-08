@@ -1,4 +1,4 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
+import { type McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { z } from "zod"
 import { MAX_TEMPLATE_CHARS, renderTemplate } from "./render.js"
 import {
@@ -6,6 +6,7 @@ import {
   DISPLAY_META_KEY,
   DISPLAY_VIEW_URI,
   displayCsp,
+  displayViewUri,
   MCP_APP_MIME_TYPE,
 } from "./view.js"
 
@@ -35,24 +36,31 @@ export function registerDisplayTool(server: McpServer, opts: DisplayToolOptions)
   const csp = displayCsp(opts.extraResourceDomains)
   const viewHtml = buildViewHtml(opts.version)
 
+  const viewUri = displayViewUri(csp)
+  const viewMeta = {
+    title: "Elicitly display view",
+    description: "MCP Apps view that renders elicit_display results.",
+    mimeType: MCP_APP_MIME_TYPE,
+  }
+  const readView = async (uri: URL) => ({
+    contents: [
+      {
+        uri: uri.href,
+        mimeType: MCP_APP_MIME_TYPE,
+        text: viewHtml,
+        _meta: { ui: { csp, prefersBorder: true } },
+      },
+    ],
+  })
+
+  // The bare URI and every `?csp=` variant serve the current view, so results
+  // stored under an older variant still render after the allowlist changes.
+  server.registerResource("elicitly_display_view", DISPLAY_VIEW_URI, viewMeta, readView)
   server.registerResource(
-    "elicitly_display_view",
-    DISPLAY_VIEW_URI,
-    {
-      title: "Elicitly display view",
-      description: "MCP Apps view that renders elicit_display results.",
-      mimeType: MCP_APP_MIME_TYPE,
-    },
-    async () => ({
-      contents: [
-        {
-          uri: DISPLAY_VIEW_URI,
-          mimeType: MCP_APP_MIME_TYPE,
-          text: viewHtml,
-          _meta: { ui: { csp, prefersBorder: true } },
-        },
-      ],
-    }),
+    "elicitly_display_view_csp",
+    new ResourceTemplate(`${DISPLAY_VIEW_URI}{?csp}`, { list: undefined }),
+    viewMeta,
+    readView,
   )
 
   server.registerTool(
@@ -92,7 +100,7 @@ export function registerDisplayTool(server: McpServer, opts: DisplayToolOptions)
           ),
       },
       annotations: { readOnlyHint: true, openWorldHint: false },
-      _meta: { ui: { resourceUri: DISPLAY_VIEW_URI } },
+      _meta: { ui: { resourceUri: viewUri } },
     },
     async ({ template, context, title, summary }) => {
       if (context && new TextEncoder().encode(JSON.stringify(context)).length > MAX_CONTEXT_BYTES) {

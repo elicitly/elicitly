@@ -21,6 +21,19 @@ All four gates must pass before a PR; CI runs the same commands.
   (approvals, review pages, dashboards — see https://www.elicitly.ai) are out
   of scope here.
 
+## Testing in Claude Desktop
+
+- **Local build:** register `packages/elicitly/dist/cli.mjs` as a stdio
+  server in `claude_desktop_config.json` (use an absolute path to `node` —
+  Claude Desktop doesn't inherit your shell's `PATH`), then quit and reopen
+  Claude Desktop after each `pnpm build`.
+- **Extension bundle:** `pnpm --filter elicitly build:mcpb`, then open
+  `packages/elicitly/dist-mcpb/elicitly.mcpb`. Opening a bundle with the same
+  version as the installed extension does **not** replace it — uninstall the
+  extension first (Settings → Extensions → Elicitly → Uninstall).
+- Tool definitions are loaded per conversation: after changing code or
+  extension settings, test in a **new** chat.
+
 ## Host support reports
 
 Found a host where elicitation is advertised but broken? Run `elicit_doctor`

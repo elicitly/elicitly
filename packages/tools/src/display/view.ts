@@ -23,6 +23,31 @@ export function displayCsp(extraResourceDomains: readonly string[] = []): {
   return { resourceDomains: [...new Set([...DEFAULT_RESOURCE_DOMAINS, ...extraResourceDomains])] }
 }
 
+/**
+ * The view URI for a given CSP. Hosts may cache UI resources by URI, so a
+ * widened allowlist gets its own URI (`?csp=<hash>`) — otherwise a host keeps
+ * enforcing the cached, narrower policy until it restarts. The default policy
+ * keeps the bare URI.
+ */
+export function displayViewUri(csp: { resourceDomains: readonly string[] }): string {
+  const domains = [...csp.resourceDomains].sort()
+  const isDefault =
+    domains.length === DEFAULT_RESOURCE_DOMAINS.length &&
+    DEFAULT_RESOURCE_DOMAINS.every((d) => domains.includes(d))
+  return isDefault ? DISPLAY_VIEW_URI : `${DISPLAY_VIEW_URI}?csp=${fnv1a(domains.join(","))}`
+}
+
+/** 32-bit FNV-1a as 8 hex chars — a cache key, not a security boundary; pure JS
+ * so the toolkit runs anywhere (Node, Workers). */
+function fnv1a(input: string): string {
+  let h = 0x811c9dc5
+  for (let i = 0; i < input.length; i++) {
+    h ^= input.charCodeAt(i)
+    h = Math.imul(h, 0x01000193)
+  }
+  return (h >>> 0).toString(16).padStart(8, "0")
+}
+
 /** Runs inside the template frame: reports content height and routes link clicks
  * to the view (which asks the host to open them via ui/open-link). */
 const FRAME_JS =

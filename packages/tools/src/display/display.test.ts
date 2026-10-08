@@ -9,6 +9,7 @@ import {
   DISPLAY_META_KEY,
   DISPLAY_VIEW_URI,
   displayCsp,
+  displayViewUri,
   MCP_APP_MIME_TYPE,
 } from "./view.js"
 
@@ -75,6 +76,20 @@ describe("displayCsp", () => {
   })
 })
 
+describe("displayViewUri", () => {
+  it("keeps the bare URI for the default policy", () => {
+    expect(displayViewUri(displayCsp())).toBe(DISPLAY_VIEW_URI)
+  })
+
+  it("gives a widened policy its own stable, order-independent URI", () => {
+    const a = displayViewUri(displayCsp(["https://a.example.com", "https://b.example.com"]))
+    const b = displayViewUri(displayCsp(["https://b.example.com", "https://a.example.com"]))
+    expect(a).toMatch(/^ui:\/\/elicitly\/display\?csp=[0-9a-f]{8}$/)
+    expect(b).toBe(a)
+    expect(displayViewUri(displayCsp(["https://c.example.com"]))).not.toBe(a)
+  })
+})
+
 describe("buildFrameDocument", () => {
   it("wraps the render in a standalone document with the height reporter", () => {
     const doc = buildFrameDocument("<p>hi</p>")
@@ -91,6 +106,26 @@ describe("registerDisplayTool", () => {
     const tool = (await client.listTools()).tools.find((t) => t.name === "elicit_display")
     expect(tool?._meta).toEqual({ ui: { resourceUri: DISPLAY_VIEW_URI } })
     expect(tool?.annotations?.readOnlyHint).toBe(true)
+  })
+
+  it("points the tool at the CSP-specific view URI when the allowlist is widened", async () => {
+    const extra = ["https://img.example.com"]
+    const client = await connect({ extra })
+    const tool = (await client.listTools()).tools.find((t) => t.name === "elicit_display")
+    expect(tool?._meta).toEqual({ ui: { resourceUri: displayViewUri(displayCsp(extra)) } })
+  })
+
+  it("serves the current view for the bare URI and any ?csp= variant", async () => {
+    const client = await connect({ extra: ["https://img.example.com"] })
+    for (const uri of [DISPLAY_VIEW_URI, `${DISPLAY_VIEW_URI}?csp=00000000`]) {
+      const { contents } = await client.readResource({ uri })
+      const [view] = contents as { uri: string; text: string; _meta: unknown }[]
+      expect(view.uri).toBe(uri)
+      expect(view.text).toContain('"ui/initialize"')
+      expect(view._meta).toMatchObject({
+        ui: { csp: { resourceDomains: ["https://cdn.jsdelivr.net", "https://img.example.com"] } },
+      })
+    }
   })
 
   it("names the allowed external origins in the tool description", async () => {
