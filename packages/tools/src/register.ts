@@ -14,6 +14,10 @@ import type { ClientInfoFn, ElicitFn } from "./types.js"
  *
  * Results carry both `structuredContent` (validated against each tool's
  * outputSchema) and the same JSON as text content, for hosts that read only one.
+ * Output schemas, and every object nested in them, are LOOSE (z.looseObject):
+ * hosts cache tool definitions and validate structuredContent against the
+ * cached schema, so `additionalProperties: false` would turn any new result
+ * field into a hard error until the host refreshes its tool list.
  */
 export function registerFormTools(
   server: McpServer,
@@ -56,7 +60,7 @@ export function registerFormTools(
           .optional()
           .describe("How long to wait for the answer, in seconds (default 300, clamped 60-3600)."),
       },
-      outputSchema: {
+      outputSchema: z.looseObject({
         confirmed: z
           .boolean()
           .nullable()
@@ -69,7 +73,7 @@ export function registerFormTools(
           .describe(
             'Present only when confirmed is null: "dismissed" = the elicitation was closed unanswered (including timeout), "error" = it failed.',
           ),
-      },
+      }),
       annotations: { destructiveHint: false, openWorldHint: false },
     },
     async ({ message, labels, timeoutSeconds }) => {
@@ -95,14 +99,14 @@ export function registerFormTools(
             "Also fire one live form-elicitation round-trip (the user may see a dialog) and report the outcome under probes.elicitationForm. Default false: passive capability report only, no prompt.",
           ),
       },
-      outputSchema: {
+      outputSchema: z.looseObject({
         initialize: z
           .record(z.string(), z.unknown())
           .describe(
             "The MCP initialize handshake echoed verbatim: { request: { clientInfo, capabilities }, response: { protocolVersion, capabilities, serverInfo } }.",
           ),
         support: z
-          .object({
+          .looseObject({
             elicitation: z.boolean(),
             elicitationForm: z.boolean(),
             elicitationUrl: z.boolean(),
@@ -118,12 +122,12 @@ export function registerFormTools(
             "Spec-level deprecation advisories (MCP 2026-07-28, SEP-2577) for the client features the report surfaces.",
           ),
         probes: z
-          .object({ elicitationForm: z.record(z.string(), z.unknown()) })
+          .looseObject({ elicitationForm: z.record(z.string(), z.unknown()) })
           .optional()
           .describe(
             "Present only when probeElicitation was true: the live round-trip's attempted/action/latencyMs/verdict.",
           ),
-      },
+      }),
       annotations: { readOnlyHint: true, openWorldHint: false },
     },
     async ({ probeElicitation }) => {
@@ -155,7 +159,7 @@ export function registerFormTools(
             "How long to wait for the answer, in seconds (default 300, clamped 60-3600) — raise it for forms with several fields.",
           ),
       },
-      outputSchema: {
+      outputSchema: z.looseObject({
         action: z
           .enum(["accept", "decline", "cancel", "error"])
           .describe(
@@ -167,7 +171,7 @@ export function registerFormTools(
           .describe(
             "On accept, the submitted values keyed by requestedSchema property name; null for every other action.",
           ),
-      },
+      }),
       annotations: { destructiveHint: false, openWorldHint: false },
     },
     async ({ message, requestedSchema, timeoutSeconds }) => {
