@@ -7,6 +7,7 @@ import { MAX_CONTEXT_BYTES, MCP_APPS_EXTENSION, registerDisplayTool } from "./re
 import { MAX_TEMPLATE_CHARS, renderTemplate } from "./render.js"
 import {
   buildFrameDocument,
+  buildViewHtml,
   DISPLAY_META_KEY,
   DISPLAY_VIEW_URI,
   displayCsp,
@@ -105,6 +106,18 @@ describe("buildFrameDocument", () => {
     expect(doc).toContain("elicitly:'height'")
     expect(doc).toContain("@layer elicitly-base{")
     expect(doc).toContain("m.elicitly!=='theme'")
+  })
+
+  // scrollHeight never drops below the frame's current height, so a render
+  // that reflows shorter (a wider panel, a stylesheet loading) kept the old
+  // height. Both reporters must measure the root's box instead.
+  it("reports heights that can shrink, in the frame and in the view", () => {
+    const doc = buildFrameDocument("<p>hi</p>")
+    expect(doc).toContain("h:Math.ceil(document.documentElement.getBoundingClientRect().height)")
+    expect(doc).not.toContain("h:document.documentElement.scrollHeight")
+    const view = buildViewHtml("9.9.9")
+    expect(view).toContain("Math.ceil(el.getBoundingClientRect().height)")
+    expect(view).not.toContain("height: el.scrollHeight")
   })
 })
 

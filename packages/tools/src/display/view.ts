@@ -48,16 +48,17 @@ function fnv1a(input: string): string {
   return (h >>> 0).toString(16).padStart(8, "0")
 }
 
-/** Runs inside the template frame: reports content height, routes link clicks
- * to the view (which asks the host to open them via ui/open-link), and applies
- * theme changes the view relays from the host (the sandboxed frame has no
- * other way to learn them; inline color-scheme outranks the layered default). */
+/** Runs inside the template frame: reports content height (the root's box; see
+ * reportSize in the view), routes link clicks to the view (which asks the host
+ * to open them via ui/open-link), and applies theme changes the view relays
+ * from the host (the sandboxed frame has no other way to learn them; inline
+ * color-scheme outranks the layered default). */
 const FRAME_JS =
   "(function(){var p=function(m){parent.postMessage(m,'*')};" +
   "addEventListener('message',function(e){var m=e.data;if(e.source!==parent||!m||m.elicitly!=='theme')return;" +
   "if(m.theme!=='light'&&m.theme!=='dark')return;var r=document.documentElement;" +
   "r.setAttribute('data-theme',m.theme);r.style.colorScheme=m.theme});" +
-  "var s=function(){p({elicitly:'height',h:document.documentElement.scrollHeight})};" +
+  "var s=function(){p({elicitly:'height',h:Math.ceil(document.documentElement.getBoundingClientRect().height)})};" +
   "addEventListener('load',s);new ResizeObserver(s).observe(document.documentElement);" +
   "addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');" +
   "if(a&&/^https?:/i.test(a.href)){e.preventDefault();p({elicitly:'open',url:a.href})}},true);})();"
@@ -136,9 +137,14 @@ iframe{display:block;width:100%;height:0;border:0}
   function notify(method, params) { post({ jsonrpc: "2.0", method: method, params: params }); }
   function log(level, data) { notify("notifications/message", { level: level, logger: "elicitly-display", data: data }); }
 
+  // Height is the root's box, not scrollHeight: scrollHeight never drops
+  // below the space the frame was given, so a render could grow but never
+  // shrink (e.g. after a CDN stylesheet tightens the layout). Nothing is
+  // reported while the view is still empty, so the host keeps its default.
   function reportSize() {
     var el = document.documentElement;
-    notify("ui/notifications/size-changed", { width: el.scrollWidth, height: el.scrollHeight });
+    var h = Math.ceil(el.getBoundingClientRect().height);
+    if (h > 0) notify("ui/notifications/size-changed", { width: el.scrollWidth, height: h });
   }
   new ResizeObserver(reportSize).observe(document.documentElement);
 
