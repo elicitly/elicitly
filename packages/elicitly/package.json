@@ -1,6 +1,6 @@
 {
   "name": "elicitly",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "mcpName": "ai.elicitly/elicitly",
   "description": "Local (stdio) MCP server that gives your prompts and Agent Skills MCP elicitation — human-in-the-loop dialogs (elicit_confirm, elicit_form) the elicit_doctor capability report, and elicit_display for rendered HTML as an MCP App, with no server of your own.",
   "keywords": [
