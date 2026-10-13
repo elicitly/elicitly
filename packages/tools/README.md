@@ -43,3 +43,5 @@ rendered by the connected host, results returned as typed JSON.
 ## License
 
 [Apache-2.0](../../LICENSE)
+
+Elicitly™ is a trademark of Preneur LLC — see [TRADEMARKS.md](../../TRADEMARKS.md).
