@@ -1,5 +1,12 @@
 # @elicitly/tools
 
+## 0.8.4
+
+### Patch Changes
+
+- c974014: Add Elicitly™ trademark attribution to the package READMEs and NOTICE files, pointing to the new TRADEMARKS.md and the policy at https://www.elicitly.ai/trademarks/.
+- e7f0a60: Raise the minimum zod runtime dependency to ^4.6.7.
+
 ## 0.8.3
 
 ### Patch Changes
