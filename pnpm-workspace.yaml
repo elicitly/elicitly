@@ -6,11 +6,11 @@ packages:
 # pnpm publish substitutes the concrete range at pack time.
 catalog:
   "@modelcontextprotocol/sdk": ^1.32.1
-  "@vitest/coverage-v8": ^5.0.3
-  tsdown: ^0.23.0
+  "@vitest/coverage-v8": ^5.0.4
+  tsdown: ^0.23.1
   typescript: ^7.0.2
-  vitest: ^5.0.3
-  zod: ^4.6.5
+  vitest: ^5.0.4
+  zod: ^4.6.7
 
 # Supply-chain policy, explicit so local and CI behave identically: only
 # install dependency versions at least 24h old (pnpm's cooling-off gate
