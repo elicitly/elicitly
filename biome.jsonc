@@ -4,7 +4,12 @@
 
   // Respect .gitignore (skips dist/, node_modules/, .turbo/, etc.)
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
-  "files": { "includes": ["**", "!**/dist", "!.claude"] },
+  // Generated files are left to their tools: pnpm writes pnpm-lock.yaml, and
+  // Changesets writes the CHANGELOGs (with trailing whitespace on the blank
+  // lines of multi-paragraph entries, which would fail `biome check` on main).
+  "files": {
+    "includes": ["**", "!**/dist", "!.claude", "!pnpm-lock.yaml", "!**/CHANGELOG.md"]
+  },
 
   "assist": {
     "actions": {
@@ -24,5 +29,15 @@
     "formatter": {
       "semicolons": "asNeeded"
     }
+  },
+
+  // Markdown is formatted, tables padded into aligned columns; front matter
+  // (changeset files) is read as front matter, which Biome doesn't detect on
+  // its own. Code in fences is left as written: Biome reads a fenced Markdown
+  // example's front matter as a paragraph and un-indents its YAML
+  // (biomejs/biome#12679).
+  "markdown": {
+    "parser": { "frontmatter": true },
+    "formatter": { "formatEmbeds": false }
   }
 }
