@@ -13,7 +13,7 @@ prompt or Agent Skill — and its cross-host support visible.
   returns the raw `{action, content}`.
 - **elicit_doctor** — reports the connected host's support for the
   [client features](https://modelcontextprotocol.io/docs/learn/client-concepts)
-  (elicitation *form* vs *url* mode, sampling, roots), and with
+  (elicitation _form_ vs _url_ mode, sampling, roots), and with
   `probeElicitation: true` runs one live elicitation round-trip and classifies
   the result (`working`, `advertised_but_autocanceled`, `user_declined`,
   `advertised_but_unanswered`, `unsupported`).
@@ -82,7 +82,7 @@ Full docs: [elicitly.ai/docs](https://www.elicitly.ai/docs/)
 
 The server runs entirely on your machine: tool calls and elicitation answers
 stay between your MCP host and the local process, and nothing is sent
-anywhere. The `contribute-fingerprint` prompt only *prepares* a GitHub issue
+anywhere. The `contribute-fingerprint` prompt only _prepares_ a GitHub issue
 link — you review and submit it yourself. Project privacy policy:
 <https://www.elicitly.ai/privacy/>
 

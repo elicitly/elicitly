@@ -45,15 +45,15 @@ MCP App).
 
 ## Packages
 
-| Package | What it is |
-| --- | --- |
-| [`elicitly`](./packages/elicitly) | The local stdio MCP server (`npx -y elicitly`) |
+| Package                               | What it is                                                                     |
+| ------------------------------------- | ------------------------------------------------------------------------------ |
+| [`elicitly`](./packages/elicitly)     | The local stdio MCP server (`npx -y elicitly`)                                 |
 | [`@elicitly/tools`](./packages/tools) | Embeddable toolkit: register the elicitation tools on **your own** `McpServer` |
 
 ## Why
 
 MCP has a native answer for asking a human — elicitation — but host support is
-inconsistent, and only an MCP *server* can trigger it. Nobody wants to roll
+inconsistent, and only an MCP _server_ can trigger it. Nobody wants to roll
 their own server just to ask a question. Elicitly is that server (or, via
 `@elicitly/tools`, the toolkit inside yours), plus the diagnostic
 (`elicit_doctor`) that makes real-world host support visible — feeding the

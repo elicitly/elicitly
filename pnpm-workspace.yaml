@@ -5,11 +5,11 @@ packages:
 # packages; manifests reference these with the "catalog:" protocol and
 # pnpm publish substitutes the concrete range at pack time.
 catalog:
-  "@modelcontextprotocol/sdk": ^1.32.1
-  "@vitest/coverage-v8": ^5.0.4
+  "@modelcontextprotocol/sdk": ^1.32.2
+  "@vitest/coverage-v8": ^5.0.5
   tsdown: ^0.23.1
   typescript: ^7.0.2
-  vitest: ^5.0.4
+  vitest: ^5.0.5
   zod: ^4.6.7
 
 # Supply-chain policy, explicit so local and CI behave identically: only

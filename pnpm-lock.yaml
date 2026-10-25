@@ -165,11 +165,11 @@ settings:
 catalogs:
   default:
     '@modelcontextprotocol/sdk':
-      specifier: ^1.32.1
-      version: 1.32.1
+      specifier: ^1.32.2
+      version: 1.32.2
     '@vitest/coverage-v8':
-      specifier: ^5.0.4
-      version: 5.0.4
+      specifier: ^5.0.5
+      version: 5.0.5
     tsdown:
       specifier: ^0.23.1
       version: 0.23.1
@@ -177,8 +177,8 @@ catalogs:
       specifier: ^7.0.2
       version: 7.0.2
     vitest:
-      specifier: ^5.0.4
-      version: 5.0.4
+      specifier: ^5.0.5
+      version: 5.0.5
     zod:
       specifier: ^4.6.7
       version: 4.6.7
@@ -188,29 +188,29 @@ importers:
   .:
     devDependencies:
       '@biomejs/biome':
-        specifier: 2.5.15
-        version: 2.5.15
+        specifier: 2.6.3
+        version: 2.6.3
       '@changesets/cli':
         specifier: ^3.0.3
         version: 3.0.3
       node:
         specifier: runtime:^22.23.3
-        version: runtime:22.23.3
+        version: runtime:22.23.4
       turbo:
-        specifier: ^2.11.8
-        version: 2.11.8
+        specifier: ^2.11.10
+        version: 2.11.10
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.0.4(@types/node@26.6.5)(@vitest/coverage-v8@5.0.4)(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))
+        version: 5.0.5(@types/node@26.6.5)(@vitest/coverage-v8@5.0.5)(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))
 
   packages/elicitly:
     dependencies:
       '@modelcontextprotocol/sdk':
         specifier: 'catalog:'
-        version: 1.32.1(zod@4.6.7)
+        version: 1.32.2(zod@4.6.7)
       zod:
         specifier: 'catalog:'
         version: 4.6.7
@@ -226,7 +226,7 @@ importers:
         version: 26.6.5
       '@vitest/coverage-v8':
         specifier: 'catalog:'
-        version: 5.0.4(vitest@5.0.4)
+        version: 5.0.5(vitest@5.0.5)
       tsdown:
         specifier: 'catalog:'
         version: 0.23.1(typescript@7.0.2)
@@ -235,13 +235,13 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.0.4(@types/node@26.6.5)(@vitest/coverage-v8@5.0.4)(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))
+        version: 5.0.5(@types/node@26.6.5)(@vitest/coverage-v8@5.0.5)(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))
 
   packages/tools:
     dependencies:
       '@modelcontextprotocol/sdk':
         specifier: 'catalog:'
-        version: 1.32.1(zod@4.6.7)
+        version: 1.32.2(zod@4.6.7)
       liquidjs:
         specifier: ^10.30.0
         version: 10.30.0
@@ -251,7 +251,7 @@ importers:
     devDependencies:
       '@vitest/coverage-v8':
         specifier: 'catalog:'
-        version: 5.0.4(vitest@5.0.4)
+        version: 5.0.5(vitest@5.0.5)
       tsdown:
         specifier: 'catalog:'
         version: 0.23.1(typescript@7.0.2)
@@ -260,7 +260,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.0.4(@types/node@26.6.5)(@vitest/coverage-v8@5.0.4)(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))
+        version: 5.0.5(@types/node@26.6.5)(@vitest/coverage-v8@5.0.5)(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))
 
 packages:
 
@@ -289,59 +289,71 @@ packages:
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
     engines: {node: '>=18'}
 
-  '@biomejs/biome@2.5.15':
-    resolution: {integrity: sha512-WZTW4slm/pdkh92K6t/3aEN++44JD1PQ7squ7RCMLI1flHGl43DVOIGXvCjHiZgBMO1V4uYxoFNtqrIA4qGuIQ==}
+  '@biomejs/biome@2.6.3':
+    resolution: {integrity: sha512-va/0xPku7wnfzv+D8Zpdm5uKiGJWiV8neqoEPnRjvNQQwhl4tVXS4fETs4H0CCB2rGeqJ4cu9y4iOZOnOYKAUA==}
     engines: {node: '>=14.21.3'}
     hasBin: true
 
-  '@biomejs/cli-darwin-arm64@2.5.15':
-    resolution: {integrity: sha512-BZVzFhJ/mUvTLMYbc9x6el0o2Uv5zP7bACYyhFb6fSc1giroXm7PL0a5KqMJ9F+/BnkYRjagD/ROSDVOZ6eapg==}
+  '@biomejs/cli-android-arm64@2.6.3':
+    resolution: {integrity: sha512-5JD7QQDEHxdeEb4sftEHG+lsuUyu8Cob/hVLqRELbgGlFl68Rldv/PPi2k4dRjERZ/EItJ3O6Xmv8lqsEtUBiw==}
+    engines: {node: '>=14.21.3'}
+    cpu: [arm64]
+    os: [android]
+
+  '@biomejs/cli-android-x64@2.6.3':
+    resolution: {integrity: sha512-70WOGKCgpT+Uqg6LFdTLqefV54/DypdZg+LnBQDO6AWvkgXO+9xhVClajQyDsIHYjnXMtI1pRO5sP+zMXlS/bw==}
+    engines: {node: '>=14.21.3'}
+    cpu: [x64]
+    os: [android]
+
+  '@biomejs/cli-darwin-arm64@2.6.3':
+    resolution: {integrity: sha512-ezf+XEKeyJ2yYlBhrzyEEHLvfRYrhtNKc6maLzR/WcAcBccb4RVDeFxsymjBve2LO0bpIMRUAiS90D4bUBRT0A==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [darwin]
 
-  '@biomejs/cli-darwin-x64@2.5.15':
-    resolution: {integrity: sha512-V5Kw63V+fVGNFhFrizDxMbGXAzZCh8kYzJpy3GI6gTapWDg7bZK9oYC9CbVgQSEdTnupz0U5Efz8Ev+5vdBBXw==}
+  '@biomejs/cli-darwin-x64@2.6.3':
+    resolution: {integrity: sha512-Lg2tFdg4elJo+7i707PpLMs6N1hATVt4kqDo6MD/q/VnPs8rsKReKXsz1TA5GNdfRVAQNJ5GRiyK2EwNptK+MA==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [darwin]
 
-  '@biomejs/cli-linux-arm64-musl@2.5.15':
-    resolution: {integrity: sha512-tGzZUTcJCV7tj5Adh/Gn6nR4MycqA3iohq2LEcrarAgRBkU0h0OKd2UzCRkOsOYOuUGaUJb4YmqRqyy2feGGSw==}
+  '@biomejs/cli-linux-arm64-musl@2.6.3':
+    resolution: {integrity: sha512-dYU70A89OFHzakQPE9VOPbE60JNcQt4mtxvUGQl+EgTkGtqCFxLD2RUn1SbiMu8Mu5xFscS1bfYDpoasaUrqNA==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@biomejs/cli-linux-arm64@2.5.15':
-    resolution: {integrity: sha512-XaG7P7eeSLYETD3K9grfB0mQmpLQZjygdbsxekWBJAg4am79fGAtRpfRyNnTvXB2fZFNnJZG3nXm7HBat0+VUw==}
+  '@biomejs/cli-linux-arm64@2.6.3':
+    resolution: {integrity: sha512-8Stcvq98n1gs9VyLKuaWrnsd8kbXE2nKDAHtuLHGSYdGyNWN5JIIm5a28xdnmgdKzKHmiDgYyATetkEv7+zGow==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@biomejs/cli-linux-x64-musl@2.5.15':
-    resolution: {integrity: sha512-IlxUcyxilVGPsE008x13pWdkTbU3nQpP2i9b5UrbOYj6goBkKsRX1XB7yJLcV+O1H9LBchIIm4adOaVLZBX0ZQ==}
+  '@biomejs/cli-linux-x64-musl@2.6.3':
+    resolution: {integrity: sha512-j6eFjUcWSphmgVTbrobEMA0wdbfNHKrGi8hRsFkc17jeS1n7nHwFACxp6jWqe9sxQqyFAeyOgt2/1bOGVcbATA==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@biomejs/cli-linux-x64@2.5.15':
-    resolution: {integrity: sha512-xE4iEW/3LqlYj9GFgGrFsFSH51dEEpUbYWBfeOv0q87WkUDxK2o/HhreSb7qMJqck70RVM6Lg96hgedcAYcOkA==}
+  '@biomejs/cli-linux-x64@2.6.3':
+    resolution: {integrity: sha512-CShmx0bO6BngywT3minv8K1xsQX1ig1vsBqYTLnmDY3mBiDYHlaLRIsdHoM1pEU9dV3BN5a0uiH0IGDtYh9TWA==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@biomejs/cli-win32-arm64@2.5.15':
-    resolution: {integrity: sha512-2kPKzhNlm8C+Ru3GcO0Me2ODkCBLrVOUNuyi84RJyWDVKAA4+Kjj3jMjL938lF6BRfvltC4vB2nPY9SvN51Ovg==}
+  '@biomejs/cli-win32-arm64@2.6.3':
+    resolution: {integrity: sha512-00SthDxBPwNiT7IL/mOneif6fiEU1PXK875zhr+InpeZjovY1mF5tCuDhXo1Hh0GYyiKHKzLbItzn58SAyLhJQ==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [win32]
 
-  '@biomejs/cli-win32-x64@2.5.15':
-    resolution: {integrity: sha512-yAzh4UqEImV6Hcy0zjUqNfJAsUhoD64FBQCdTG8Md/Z2wQeVP/ZmJ3XRYAs1g8J9fjTFyl2fCtc5FB5til47+g==}
+  '@biomejs/cli-win32-x64@2.6.3':
+    resolution: {integrity: sha512-GhtOPphBWlnCepqpNk/w5eGN5oGRCzL20EbAkL1XCIpyboeVC9R642noyT43l8LSenGS4qz9IL8sKPfwY37V/Q==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
@@ -499,8 +511,8 @@ packages:
     resolution: {integrity: sha512-6QEf6yqFbETdwGITKq57aYoPfX/3K8XFNwsAlx0C1M7o8cb79sv1M3w+tWuWvIcSbNqrLF7OD7YpZMVVz335hQ==}
     engines: {node: '>=20.0.0'}
 
-  '@modelcontextprotocol/sdk@1.32.1':
-    resolution: {integrity: sha512-2DdE+SJDtzLEEWzY1ZjY7Q+VcPhcV1KisD3zI4u0XZyktsjHum1mwbMI+JaulUBi2OZk+KJAi2uPXzxichPkdw==}
+  '@modelcontextprotocol/sdk@1.32.2':
+    resolution: {integrity: sha512-SWsVtH/0vULSQStoZ6xxH2K09Li8fXYTMC64ZeogCdpZ3XSi1eCPOByV1OpuJxuI3OcmHhosDWYyii07tpPsLw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@cfworker/json-schema': ^4.1.1
@@ -618,33 +630,33 @@ packages:
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
-  '@turbo/darwin-64@2.11.8':
-    resolution: {integrity: sha512-u+6s4C2hskRYx6MkW2uT7BCW6sESCL/+5bjHDDWUfQfQliCSJ7lAHAL6RQaw0an9WU6nJvwYgT786mEWul2kDw==}
+  '@turbo/darwin-64@2.11.10':
+    resolution: {integrity: sha512-By4idRap5+nLnMuRzLB4qkOPRlvNdyY1ne4VJYDyUoUB11H94k7uif9mbe3JT8JSNXs1D68uMcBj6hJ/jMQRvA==}
     cpu: [x64]
     os: [darwin]
 
-  '@turbo/darwin-arm64@2.11.8':
-    resolution: {integrity: sha512-y3qpPbclA4MuzAf/pSp6ivifp2mBCiLMHyf/bVq2eAJLjTnzev9JG5eqFhM0UvDGi0b3QKRNZi2HiavPnLbEbw==}
+  '@turbo/darwin-arm64@2.11.10':
+    resolution: {integrity: sha512-pyEYlVcuexOPa92p0Wlwl9YT1Is5D60lxN3ItWm3g30YLvFaUq86TF4BBWg5ZAc0uMTnrOzCvuCsOBTdzUWnRQ==}
     cpu: [arm64]
     os: [darwin]
 
-  '@turbo/linux-64@2.11.8':
-    resolution: {integrity: sha512-5Pm0icIkXPjk/HxhZD2AFMCyfH8RlITgtOksoSAdeLtXHAagzAqaAkdqG+6Ebd3eGPT1k3nJZWQD4wCLlIte5g==}
+  '@turbo/linux-64@2.11.10':
+    resolution: {integrity: sha512-1tYeR/IDZ5HEdsb0jNq2L2xam5nMQ+g80tlV2BZmv4OFw+pMcUM0mMmUcfc5wXPPNHVNPuDMjh9Y8G8HgXPLZA==}
     cpu: [x64]
     os: [android, linux]
 
-  '@turbo/linux-arm64@2.11.8':
-    resolution: {integrity: sha512-gh/Pcg7WVLS22SpoFqNxs/4y6feU/+Qa9nkCLTOHMTLjE3ADeqMjLFulq1LVCsWD2vjQccCnaZSUOLJ/lHzBRQ==}
+  '@turbo/linux-arm64@2.11.10':
+    resolution: {integrity: sha512-HuekQxvVGhUd46g1Im/DKdOtglHr4/gguZAvzEpPUgtxNkztSa8lWhQEGQ+EmPQ0n7w19qjThFU+OfEEd0uvlw==}
     cpu: [arm64]
     os: [android, linux]
 
-  '@turbo/windows-64@2.11.8':
-    resolution: {integrity: sha512-NnHtcWPE6PymlYsCKEuYditlY/nMeCEB3xyD4yc3cpqpxW7/4Xqdlqd5TpqvEpjS8CDazPHelGCQS/ghUIoZ6g==}
+  '@turbo/windows-64@2.11.10':
+    resolution: {integrity: sha512-UJOP3BkbreY3/JlMgJR6ZiimxYIBn+c+B4tnBIxD0E9c3Estmk+XoVNVBNBottZLNRXe3/ScgOU4+/k8tIWysg==}
     cpu: [x64]
     os: [win32]
 
-  '@turbo/windows-arm64@2.11.8':
-    resolution: {integrity: sha512-o8UyM/VlYCvW5Enfo2O37Pe11p3wmnEYtJrohXA2SyOlehmo5KyXpptPRKrXOMNfdmoYEulo6Nhj0tIv2UB0hA==}
+  '@turbo/windows-arm64@2.11.10':
+    resolution: {integrity: sha512-xOkEjF3ws/b/YNlc+bvJHMYBn+vL+QbEISZFVi0qS+ImmhA1X3/gmNmBrjjIG3dg6aeN+n6gQitzSkXQ286qJQ==}
     cpu: [arm64]
     os: [win32]
 
@@ -789,11 +801,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@vitest/coverage-v8@5.0.4':
-    resolution: {integrity: sha512-P5YcQY8Y6RmoE9xRXI38rT8pssbcubEzqtYTM2XQoxOXMDn04nRaTI1SM8qCl9/NfW3ag9GlzdSXu7IwO5Ft8A==}
+  '@vitest/coverage-v8@5.0.5':
+    resolution: {integrity: sha512-4KpkGdIrSqBihx/JyP/e+S+IKB98etg1XDQiLAxksLfcShnwi1VReGeOT9NI43hLHbknosKp/1CCLn9Zgcs8mg==}
     peerDependencies:
-      '@vitest/browser': 5.0.4
-      vitest: 5.0.4
+      '@vitest/browser': 5.0.5
+      vitest: 5.0.5
     peerDependenciesMeta:
       '@vitest/browser':
         optional: true
@@ -806,8 +818,8 @@ packages:
     resolution: {integrity: sha512-gUsfXZJbzPamoIY5TvHFiMMoXESBrUMo+xqaj+rYrWI69+EnvRlYBlP96ZnHPY4vX8kyUpgAnFUCg5wZG/HkDQ==}
     engines: {node: '>=22'}
 
-  '@vitest/mocker@5.0.4':
-    resolution: {integrity: sha512-tqAlrYWce4iUxhr3ncNohejtCTOcHeE8XWrSNZY3OhPoDn01yeGv+gnaBy64ATp7o6pb03eIbBAjzmibpc9vIQ==}
+  '@vitest/mocker@5.0.5':
+    resolution: {integrity: sha512-xLL3lkDegJZw+MGoGaCCsFayDZthGgpAtr3Vziyfc4p7xH89K7KRPcRBBh/kEYm0Aqkt5DtTmkYpBtRV/FrHZg==}
     peerDependencies:
       msw: ^2.4.9 || ^3.0.0
       vite: ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -817,8 +829,8 @@ packages:
       vite:
         optional: true
 
-  '@vitest/spy@5.0.4':
-    resolution: {integrity: sha512-MZKk/gSkm2q+ICobMxCpH1mA+cCAWm8WV7UhxlqGjq/sJ3AGc1BqFOs5CRVXxH78wQtme9q/NAAgBquj4AcyMw==}
+  '@vitest/spy@5.0.5':
+    resolution: {integrity: sha512-lwJRExuH417257Q5wv9QYugN9IMJkoxcrKrYxGPQkBzl7wlNpTUxD/5yNX4ESKVUIShKPgkGchYPFMWOOk0wzw==}
 
   '@yuku-core/binding-android-arm64@0.19.0':
     resolution: {integrity: sha512-wdL2XmTiZixAOaHk9Z0JJZ8u9Qm8d333Zjpc6gaxXFX+UR5BlsfxZ7a2+2Rm71pamppsPYGUGFq2oVLbh6DISw==}
@@ -1380,7 +1392,7 @@ packages:
     resolution: {integrity: sha512-LarFH0+6VfriEhqMMcLX2F7SwSXeWwnEAJEsYm5QKWchiVYVvJyV9v7UDvUv+w5HO23ZpQTXDv/GxdDdMyOuoQ==}
     engines: {node: '>= 6.13.0'}
 
-  node@runtime:22.23.3:
+  node@runtime:22.23.4:
     resolution:
       type: variations
       variants:
@@ -1388,9 +1400,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-uF3F8NepvoA4xOc0UNkSWyQceS7H7ElSKTRfhtHj9vo=
+            integrity: sha256-whlBC+oK7Qjs+lhHo9ispORd1JSglPhsDYchE4Ngqck=
             type: binary
-            url: https://nodejs.org/download/release/v22.23.3/node-v22.23.3-aix-ppc64.tar.gz
+            url: https://nodejs.org/download/release/v22.23.4/node-v22.23.4-aix-ppc64.tar.gz
           targets:
             - cpu: ppc64
               os: aix
@@ -1398,9 +1410,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-I7JSRdz7mvcmL4/xQuni4K8CU2gRcynnp0WKUeWSL1M=
+            integrity: sha256-yeHbx0izPtLRT0JEUZHsrxTFYlnHqaJtAELEnsK2ZCg=
             type: binary
-            url: https://nodejs.org/download/release/v22.23.3/node-v22.23.3-darwin-arm64.tar.gz
+            url: https://nodejs.org/download/release/v22.23.4/node-v22.23.4-darwin-arm64.tar.gz
           targets:
             - cpu: arm64
               os: darwin
@@ -1408,9 +1420,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-imd7AhkXjv1usOR1RXxK+0UrUhqS9uZ4Rac72Fcn8qg=
+            integrity: sha256-78wrDbb5S/U+3bA4/is3AnegQr0p5PGbj44jWYeVuBk=
             type: binary
-            url: https://nodejs.org/download/release/v22.23.3/node-v22.23.3-darwin-x64.tar.gz
+            url: https://nodejs.org/download/release/v22.23.4/node-v22.23.4-darwin-x64.tar.gz
           targets:
             - cpu: x64
               os: darwin
@@ -1418,9 +1430,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-XO0tSNHXGYc5t/hoBN4Bca77aCO2hLEjQdMyGvw8sLI=
+            integrity: sha256-96HkhtvIsoaEeBW0d9T7Xp+5Y+1EicPhWIhT1oX1ifk=
             type: binary
-            url: https://nodejs.org/download/release/v22.23.3/node-v22.23.3-linux-arm64.tar.gz
+            url: https://nodejs.org/download/release/v22.23.4/node-v22.23.4-linux-arm64.tar.gz
           targets:
             - cpu: arm64
               os: linux
@@ -1428,9 +1440,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-i5kFjsb043K5iH+Oy1d6KSrbEy1Z5RBDVkKKdY/bEmw=
+            integrity: sha256-Qxjgxo9i4YWD2uhetkX1XH8rii6NH//pGi6KvQRogKs=
             type: binary
-            url: https://nodejs.org/download/release/v22.23.3/node-v22.23.3-linux-armv7l.tar.gz
+            url: https://nodejs.org/download/release/v22.23.4/node-v22.23.4-linux-armv7l.tar.gz
           targets:
             - cpu: armv7l
               os: linux
@@ -1438,9 +1450,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-I2cS3e9z9WwOBZCixJ9pyDk6LC2Cw9YsfBZWBbRys40=
+            integrity: sha256-ZoSQPuJ5Wq/mOdwHID6KUe0grhYc8http8ITyKv+1EI=
             type: binary
-            url: https://nodejs.org/download/release/v22.23.3/node-v22.23.3-linux-ppc64le.tar.gz
+            url: https://nodejs.org/download/release/v22.23.4/node-v22.23.4-linux-ppc64le.tar.gz
           targets:
             - cpu: ppc64le
               os: linux
@@ -1448,9 +1460,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-UfZHlPX2G9/ICqGGyCcwIUc5l2Bc+Q7THtFIvuZQpVQ=
+            integrity: sha256-C9yA+iczHn9BbR2FU7mqu8PBWHCdwyhZ5OhXJKwawwI=
             type: binary
-            url: https://nodejs.org/download/release/v22.23.3/node-v22.23.3-linux-s390x.tar.gz
+            url: https://nodejs.org/download/release/v22.23.4/node-v22.23.4-linux-s390x.tar.gz
           targets:
             - cpu: s390x
               os: linux
@@ -1458,9 +1470,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-Yz9JpPOIxflWTVbZwPX/o5Q0bZLKAHb+Ic93bs4ZiLw=
+            integrity: sha256-YxiUAuqiIqq/UbSYPlElkhMc0tSp78Otm/KR/nTj5N4=
             type: binary
-            url: https://nodejs.org/download/release/v22.23.3/node-v22.23.3-linux-x64-musl.tar.gz
+            url: https://nodejs.org/download/release/v22.23.4/node-v22.23.4-linux-x64-musl.tar.gz
           targets:
             - cpu: x64
               os: linux
@@ -1469,9 +1481,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-EISqNhlrukw6Xmmh7jiKbk/3KdrQlEX7zUNLKP48JK8=
+            integrity: sha256-uEkihMdqVLr1jWFmjdDkHuD8mK2r+VA9MPBdCPVbRAY=
             type: binary
-            url: https://nodejs.org/download/release/v22.23.3/node-v22.23.3-linux-x64.tar.gz
+            url: https://nodejs.org/download/release/v22.23.4/node-v22.23.4-linux-x64.tar.gz
           targets:
             - cpu: x64
               os: linux
@@ -1479,10 +1491,10 @@ packages:
             archive: zip
             bin:
               node: node.exe
-            integrity: sha256-M9rSLkzvXuj5+7Gw0Df9rNDlbRKkWA8NY/aLiU3qtTU=
-            prefix: node-v22.23.3-win-arm64
+            integrity: sha256-qLjNecu7MGJDX0SVkdmN1jcwu78wzi18w6Y3bCNssRE=
+            prefix: node-v22.23.4-win-arm64
             type: binary
-            url: https://nodejs.org/download/release/v22.23.3/node-v22.23.3-win-arm64.zip
+            url: https://nodejs.org/download/release/v22.23.4/node-v22.23.4-win-arm64.zip
           targets:
             - cpu: arm64
               os: win32
@@ -1490,10 +1502,10 @@ packages:
             archive: zip
             bin:
               node: node.exe
-            integrity: sha256-Kw/1ewSc2hu86iJA7sIEZwGHE8Hv4fc2DCaBhZuQ7XE=
-            prefix: node-v22.23.3-win-x64
+            integrity: sha256-y8dLXgmCydu0FSX9j7Xc0y++4jeGP3gpBy9GOaHOXyA=
+            prefix: node-v22.23.4-win-x64
             type: binary
-            url: https://nodejs.org/download/release/v22.23.3/node-v22.23.3-win-x64.zip
+            url: https://nodejs.org/download/release/v22.23.4/node-v22.23.4-win-x64.zip
           targets:
             - cpu: x64
               os: win32
@@ -1501,10 +1513,10 @@ packages:
             archive: zip
             bin:
               node: node.exe
-            integrity: sha256-HgesAOYbQbfs8kLejjiIPSN9WtP9ytfBby3TqIZw4rY=
-            prefix: node-v22.23.3-win-x86
+            integrity: sha256-fWxNzi7MzKRuPEs+Q8i+u9GWm9YW/bT9oegmkXHZzOo=
+            prefix: node-v22.23.4-win-x86
             type: binary
-            url: https://nodejs.org/download/release/v22.23.3/node-v22.23.3-win-x86.zip
+            url: https://nodejs.org/download/release/v22.23.4/node-v22.23.4-win-x86.zip
           targets:
             - cpu: x86
               os: win32
@@ -1512,9 +1524,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-jOwDpJjYg3OdHcm5JP2i+GlEcFtUrHB79IpjdIN3THA=
+            integrity: sha256-eKy//tHUCV6LTbVeuLQ66Siy1B0UqyrenuRqHKbmd98=
             type: binary
-            url: https://unofficial-builds.nodejs.org/download/release/v22.23.3/node-v22.23.3-linux-arm64-musl.tar.gz
+            url: https://unofficial-builds.nodejs.org/download/release/v22.23.4/node-v22.23.4-linux-arm64-musl.tar.gz
           targets:
             - cpu: arm64
               os: linux
@@ -1523,14 +1535,14 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-XqRolPwG4JNjhG2O1lqCK9AL6jXZdOQTICcqSK8wnjo=
+            integrity: sha256-EX6uOKOeRdU08aGMIhdwncCwmDX2FomvSQE33iMetCw=
             type: binary
-            url: https://unofficial-builds.nodejs.org/download/release/v22.23.3/node-v22.23.3-linux-x64-musl.tar.gz
+            url: https://unofficial-builds.nodejs.org/download/release/v22.23.4/node-v22.23.4-linux-x64-musl.tar.gz
           targets:
             - cpu: x64
               os: linux
               libc: musl
-    version: 22.23.3
+    version: 22.23.4
     hasBin: true
 
   object-assign@4.1.1:
@@ -1781,8 +1793,8 @@ packages:
       unrun:
         optional: true
 
-  turbo@2.11.8:
-    resolution: {integrity: sha512-OwiFs6xNO5c2XtPgYCgCXuSlkur4b5T/OeAbOKzgsHh5mmJ9Sh7m041fz2JchrvyQv8hmae+1n07HfBmvDLZRA==}
+  turbo@2.11.10:
+    resolution: {integrity: sha512-3GJYwig8ygEI89oaOZdduJX8/aw6O9eRPYHoIt6T3FZl9hkKjiyIspufJoVgqXihPoJu8M5CSV0DlZvzfohBCw==}
     hasBin: true
 
   type-fest@0.21.3:
@@ -1866,20 +1878,20 @@ packages:
       yaml:
         optional: true
 
-  vitest@5.0.4:
-    resolution: {integrity: sha512-z0WxZRV2Sg48wF0FSgMq3TFG8JS38/Qr96vZVZdX6+Em9raQTvnXQvdTFJe2m3rfyJnEHeHQ/snceIdi8D1pVg==}
+  vitest@5.0.5:
+    resolution: {integrity: sha512-cPODOMF8YnkiiYtDdHo6n4wWmBrOBBbOIYH2d33M4l3CdNn72h+qMmO6uXffUN6A5AZFXNND/d+krS9mgkXRfg==}
     engines: {node: ^22.12.0 || ^24.0.0 || >=26.0.0}
     hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
       '@opentelemetry/api': ^1.9.0
       '@types/node': ^22.0.0 || >=24.0.0
-      '@vitest/browser-playwright': 5.0.4
-      '@vitest/browser-preview': 5.0.4
+      '@vitest/browser-playwright': 5.0.5
+      '@vitest/browser-preview': 5.0.5
       '@vitest/browser-webdriverio': ^5.0.0-beta.5 || >=5.0.0
-      '@vitest/coverage-istanbul': 5.0.4
-      '@vitest/coverage-v8': 5.0.4
-      '@vitest/ui': 5.0.4
+      '@vitest/coverage-istanbul': 5.0.5
+      '@vitest/coverage-v8': 5.0.5
+      '@vitest/ui': 5.0.5
       happy-dom: '*'
       jsdom: '*'
       vite: ^6.4.0 || ^7.0.0 || ^8.0.0
@@ -1991,39 +2003,47 @@ snapshots:
 
   '@bcoe/v8-coverage@1.0.2': {}
 
-  '@biomejs/biome@2.5.15':
+  '@biomejs/biome@2.6.3':
     optionalDependencies:
-      '@biomejs/cli-darwin-arm64': 2.5.15
-      '@biomejs/cli-darwin-x64': 2.5.15
-      '@biomejs/cli-linux-arm64': 2.5.15
-      '@biomejs/cli-linux-arm64-musl': 2.5.15
-      '@biomejs/cli-linux-x64': 2.5.15
-      '@biomejs/cli-linux-x64-musl': 2.5.15
-      '@biomejs/cli-win32-arm64': 2.5.15
-      '@biomejs/cli-win32-x64': 2.5.15
+      '@biomejs/cli-android-arm64': 2.6.3
+      '@biomejs/cli-android-x64': 2.6.3
+      '@biomejs/cli-darwin-arm64': 2.6.3
+      '@biomejs/cli-darwin-x64': 2.6.3
+      '@biomejs/cli-linux-arm64': 2.6.3
+      '@biomejs/cli-linux-arm64-musl': 2.6.3
+      '@biomejs/cli-linux-x64': 2.6.3
+      '@biomejs/cli-linux-x64-musl': 2.6.3
+      '@biomejs/cli-win32-arm64': 2.6.3
+      '@biomejs/cli-win32-x64': 2.6.3
 
-  '@biomejs/cli-darwin-arm64@2.5.15':
+  '@biomejs/cli-android-arm64@2.6.3':
     optional: true
 
-  '@biomejs/cli-darwin-x64@2.5.15':
+  '@biomejs/cli-android-x64@2.6.3':
     optional: true
 
-  '@biomejs/cli-linux-arm64-musl@2.5.15':
+  '@biomejs/cli-darwin-arm64@2.6.3':
     optional: true
 
-  '@biomejs/cli-linux-arm64@2.5.15':
+  '@biomejs/cli-darwin-x64@2.6.3':
     optional: true
 
-  '@biomejs/cli-linux-x64-musl@2.5.15':
+  '@biomejs/cli-linux-arm64-musl@2.6.3':
     optional: true
 
-  '@biomejs/cli-linux-x64@2.5.15':
+  '@biomejs/cli-linux-arm64@2.6.3':
     optional: true
 
-  '@biomejs/cli-win32-arm64@2.5.15':
+  '@biomejs/cli-linux-x64-musl@2.6.3':
     optional: true
 
-  '@biomejs/cli-win32-x64@2.5.15':
+  '@biomejs/cli-linux-x64@2.6.3':
+    optional: true
+
+  '@biomejs/cli-win32-arm64@2.6.3':
+    optional: true
+
+  '@biomejs/cli-win32-x64@2.6.3':
     optional: true
 
   '@changesets/apply-release-plan@8.1.1':
@@ -2266,7 +2286,7 @@ snapshots:
       tinyglobby: 0.2.17
       yaml: 2.9.1
 
-  '@modelcontextprotocol/sdk@1.32.1(zod@4.6.7)':
+  '@modelcontextprotocol/sdk@1.32.2(zod@4.6.7)':
     dependencies:
       '@hono/node-server': 2.1.4(hono@4.13.13)
       ajv: 8.20.0
@@ -2343,22 +2363,22 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@turbo/darwin-64@2.11.8':
+  '@turbo/darwin-64@2.11.10':
     optional: true
 
-  '@turbo/darwin-arm64@2.11.8':
+  '@turbo/darwin-arm64@2.11.10':
     optional: true
 
-  '@turbo/linux-64@2.11.8':
+  '@turbo/linux-64@2.11.10':
     optional: true
 
-  '@turbo/linux-arm64@2.11.8':
+  '@turbo/linux-arm64@2.11.10':
     optional: true
 
-  '@turbo/windows-64@2.11.8':
+  '@turbo/windows-64@2.11.10':
     optional: true
 
-  '@turbo/windows-arm64@2.11.8':
+  '@turbo/windows-arm64@2.11.10':
     optional: true
 
   '@types/chai@5.2.3':
@@ -2444,7 +2464,7 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  '@vitest/coverage-v8@5.0.4(vitest@5.0.4)':
+  '@vitest/coverage-v8@5.0.5(vitest@5.0.5)':
     dependencies:
       '@bcoe/v8-coverage': 1.0.2
       '@vitest/istanbul-lib-coverage': 1.0.2
@@ -2454,7 +2474,7 @@ snapshots:
       obug: 3.0.0
       std-env: 4.3.0
       tinyrainbow: 3.2.0
-      vitest: 5.0.4(@types/node@26.6.5)(@vitest/coverage-v8@5.0.4)(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))
+      vitest: 5.0.5(@types/node@26.6.5)(@vitest/coverage-v8@5.0.5)(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))
 
   '@vitest/istanbul-lib-coverage@1.0.2': {}
 
@@ -2462,16 +2482,16 @@ snapshots:
     dependencies:
       '@vitest/istanbul-lib-coverage': 1.0.2
 
-  '@vitest/mocker@5.0.4(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))':
+  '@vitest/mocker@5.0.5(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
-      '@vitest/spy': 5.0.4
+      '@vitest/spy': 5.0.5
       estree-walker: 3.0.3
       magic-string: 1.4.3
     optionalDependencies:
       vite: 8.3.4(@types/node@26.6.5)(yaml@2.9.1)
 
-  '@vitest/spy@5.0.4': {}
+  '@vitest/spy@5.0.5': {}
 
   '@yuku-core/binding-android-arm64@0.19.0':
     optional: true
@@ -2952,7 +2972,7 @@ snapshots:
 
   node-forge@1.4.0: {}
 
-  node@runtime:22.23.3: {}
+  node@runtime:22.23.4: {}
 
   object-assign@4.1.1: {}
 
@@ -3193,14 +3213,14 @@ snapshots:
       - oxc-resolver
       - vue-tsc
 
-  turbo@2.11.8:
+  turbo@2.11.10:
     optionalDependencies:
-      '@turbo/darwin-64': 2.11.8
-      '@turbo/darwin-arm64': 2.11.8
-      '@turbo/linux-64': 2.11.8
-      '@turbo/linux-arm64': 2.11.8
-      '@turbo/windows-64': 2.11.8
-      '@turbo/windows-arm64': 2.11.8
+      '@turbo/darwin-64': 2.11.10
+      '@turbo/darwin-arm64': 2.11.10
+      '@turbo/linux-64': 2.11.10
+      '@turbo/linux-arm64': 2.11.10
+      '@turbo/windows-64': 2.11.10
+      '@turbo/windows-arm64': 2.11.10
 
   type-fest@0.21.3: {}
 
@@ -3262,10 +3282,10 @@ snapshots:
       fsevents: 2.3.3
       yaml: 2.9.1
 
-  vitest@5.0.4(@types/node@26.6.5)(@vitest/coverage-v8@5.0.4)(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1)):
+  vitest@5.0.5(@types/node@26.6.5)(@vitest/coverage-v8@5.0.5)(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1)):
     dependencies:
       '@types/chai': 5.2.3
-      '@vitest/mocker': 5.0.4(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))
+      '@vitest/mocker': 5.0.5(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))
       chai: 6.3.0
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
@@ -3280,7 +3300,7 @@ snapshots:
       why-is-node-running: 3.2.1
     optionalDependencies:
       '@types/node': 26.6.5
-      '@vitest/coverage-v8': 5.0.4(vitest@5.0.4)
+      '@vitest/coverage-v8': 5.0.5(vitest@5.0.5)
     transitivePeerDependencies:
       - msw
 
