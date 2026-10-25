@@ -1,5 +1,11 @@
 # elicitly
 
+## 0.8.5
+
+### Patch Changes
+
+- 56b1767: Raise the minimum @modelcontextprotocol/sdk runtime dependency to ^1.32.2.
+
 ## 0.8.4
 
 ### Patch Changes
