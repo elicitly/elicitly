@@ -7,7 +7,7 @@ packages:
 catalog:
   "@modelcontextprotocol/sdk": ^1.32.2
   "@vitest/coverage-v8": ^5.0.5
-  tsdown: ^0.23.1
+  tsdown: ^0.23.2
   typescript: ^7.0.2
   vitest: ^5.0.5
   zod: ^4.6.7
