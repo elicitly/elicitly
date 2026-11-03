@@ -243,8 +243,8 @@ importers:
         specifier: 'catalog:'
         version: 1.32.2(zod@4.6.7)
       liquidjs:
-        specifier: ^10.30.0
-        version: 10.30.0
+        specifier: ^10.30.1
+        version: 10.30.1
       zod:
         specifier: 'catalog:'
         version: 4.6.7
@@ -1341,8 +1341,8 @@ packages:
     resolution: {integrity: sha512-WkUDrojuJs0xkgGf2udWxa3yGBRxPtxUkB79i6aCZLRgc7PM8fZe9TosfPDcvEpQZbuFASnHYmRLBLUbmLOIIA==}
     engines: {node: '>= 12.0.0'}
 
-  liquidjs@10.30.0:
-    resolution: {integrity: sha512-Fw4wA+8CZsJkaeLEIlPE3AoponfjEZhj7FQvYNcAEcg7jNRik7mEMoaco382FBdrYlykVf6w4vClPNctz2OYjg==}
+  liquidjs@10.30.1:
+    resolution: {integrity: sha512-P1Iz14WUHZdfbOYwHOIhtl/iAWIOYk1ks5l9rPZlDM6vZo+6BLeYIuWHAPkIz+U8Mm8HKZKITIrjX7DQJO2fqA==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -2934,7 +2934,7 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.33.0
       lightningcss-win32-x64-msvc: 1.33.0
 
-  liquidjs@10.30.0:
+  liquidjs@10.30.1:
     dependencies:
       commander: 10.0.1
 
