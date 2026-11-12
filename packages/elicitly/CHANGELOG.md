@@ -1,5 +1,12 @@
 # elicitly
 
+## 0.8.5
+
+### Patch Changes
+
+- 5e9b3d5: Raise the minimum liquidjs runtime dependency to ^10.30.1.
+- 56b1767: Raise the minimum @modelcontextprotocol/sdk runtime dependency to ^1.32.2.
+
 ## 0.8.4
 
 ### Patch Changes
