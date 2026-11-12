@@ -3,7 +3,8 @@ name: Release
 # Changesets flow: merging changeset files into main opens/updates a
 # "Version Packages" PR; merging THAT PR publishes to npm via trusted
 # publishing (GitHub Actions OIDC — no long-lived token). Both packages'
-# npm settings name this repo + workflow as their trusted publisher.
+# npm settings name this repo + workflow as their trusted publisher, by
+# exact filename (release.yaml) — renaming this file breaks publishing.
 # The publish command is pnpm-based so workspace:* devDeps and version
 # ranges are resolved by pnpm at pack time; `changeset git-tag` then
 # reports the tags to the action via the CHANGESETS_OUTPUT file (requires

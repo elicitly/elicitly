@@ -6,7 +6,7 @@
 [![npm — @elicitly/tools](https://img.shields.io/npm/v/%40elicitly%2Ftools?label=%40elicitly%2Ftools)](https://www.npmjs.com/package/@elicitly/tools)
 [![Docs](https://img.shields.io/badge/docs-elicitly.ai-blue)](https://www.elicitly.ai/docs/)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-green)](./LICENSE)
-[![CI](https://github.com/elicitly/elicitly/actions/workflows/ci.yml/badge.svg)](https://github.com/elicitly/elicitly/actions/workflows/ci.yml)
+[![CI](https://github.com/elicitly/elicitly/actions/workflows/ci.yaml/badge.svg)](https://github.com/elicitly/elicitly/actions/workflows/ci.yaml)
 [![Coverage](https://codecov.io/gh/elicitly/elicitly/graph/badge.svg)](https://codecov.io/gh/elicitly/elicitly)
 <br>
 [![elicitly MCP server — quality and maintenance score on Glama](https://glama.ai/mcp/servers/elicitly/elicitly/badges/score.svg)](https://glama.ai/mcp/servers/elicitly/elicitly)
