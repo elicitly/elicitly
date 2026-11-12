@@ -6,10 +6,10 @@ packages:
 # pnpm publish substitutes the concrete range at pack time.
 catalog:
   "@modelcontextprotocol/sdk": ^1.32.2
-  "@vitest/coverage-v8": ^5.0.5
-  tsdown: ^0.23.1
+  "@vitest/coverage-v8": ^5.1.0
+  tsdown: ^0.23.7
   typescript: ^7.0.2
-  vitest: ^5.0.5
+  vitest: ^5.1.0
   zod: ^4.6.7
 
 # Supply-chain policy, explicit so local and CI behave identically: only
@@ -17,7 +17,9 @@ catalog:
 # against freshly compromised releases).
 minimumReleaseAge: 1440
 
-# pnpm blocks install scripts by default; esbuild (vitest's vite toolchain)
-# compiles its native binary at install time.
-onlyBuiltDependencies:
-  - esbuild
+# pnpm blocks dependency install scripts and agent skills until approved.
+# tsdown's skill is only a pointer telling agents to fetch instructions from
+# GitHub at runtime, bypassing the lockfile and minimumReleaseAge — denied.
+permissions:
+  tsdown:
+    skills: false

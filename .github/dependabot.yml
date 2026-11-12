@@ -12,3 +12,7 @@ updates:
     cooldown:
       default-days: 1
     open-pull-requests-limit: 10
+    groups:
+      npm:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
