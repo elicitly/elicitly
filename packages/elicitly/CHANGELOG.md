@@ -1,5 +1,11 @@
 # elicitly
 
+## 0.8.6
+
+### Patch Changes
+
+- 8fafe20: The MCP Registry listing (`ai.elicitly/elicitly`) now carries the Elicitly icon, so directories that mirror the registry, such as mcptry.com, show it.
+
 ## 0.8.5
 
 ### Patch Changes
