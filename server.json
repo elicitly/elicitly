@@ -6,7 +6,9 @@
     {
       "src": "https://www.elicitly.ai/favicon.svg",
       "mimeType": "image/svg+xml",
-      "sizes": ["any"]
+      "sizes": [
+        "any"
+      ]
     }
   ],
   "description": "Human-in-the-loop for AI agents over MCP elicitation: confirm/form dialogs plus a capability doctor",
@@ -15,12 +17,12 @@
     "url": "https://github.com/elicitly/elicitly",
     "source": "github"
   },
-  "version": "0.8.5",
+  "version": "0.8.6",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "elicitly",
-      "version": "0.8.5",
+      "version": "0.8.6",
       "transport": {
         "type": "stdio"
       }
