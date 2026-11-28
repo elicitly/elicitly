@@ -1,5 +1,11 @@
 # elicitly
 
+## 0.8.7
+
+### Patch Changes
+
+- bbf54bd: Rebuilt with the refreshed toolchain (pnpm 12.23.0, Biome 2.6.9, vitest 5.1.2). No functional changes; Node 22 remains the supported minimum.
+
 ## 0.8.6
 
 ### Patch Changes
