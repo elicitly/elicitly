@@ -6,9 +6,7 @@
     {
       "src": "https://www.elicitly.ai/favicon.svg",
       "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
+      "sizes": ["any"]
     }
   ],
   "description": "Human-in-the-loop for AI agents over MCP elicitation: confirm/form dialogs plus a capability doctor",

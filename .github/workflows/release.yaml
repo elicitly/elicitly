@@ -72,6 +72,9 @@ jobs:
           fi
           jq --arg v "$VERSION" '.version = $v | .packages[0].version = $v' server.json > server.tmp
           mv server.tmp server.json
+          # jq re-indents every array; restore Biome's layout so the
+          # [skip ci] commit below keeps `pnpm check` green on main.
+          pnpm exec biome format --write server.json
           curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
           SEED=$(printf '%s\n' "$MCP_REGISTRY_PRIVATE_KEY" | openssl pkey -text -noout | awk '/priv:/{f=1;next} /pub:/{f=0} f' | tr -d ' :\n')
           ./mcp-publisher login dns --domain elicitly.ai --private-key "$SEED"
